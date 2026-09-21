@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:8081/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Predictix",
+      "hasCanvas": false,
+      "bodyTextLen": 1806,
+      "bodyTextHash": "091c865556a7b594aeb053f39cc196ecc065a5c403ac19ade46efe1fada56326",
+      "bodyTextPrefix": "Predictix Markets Portfolio Leaderboard Connect Sign in Live mar",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Predictix",
+      "hasCanvas": false,
+      "bodyTextLen": 1758,
+      "bodyTextHash": "23f0aad49a0f3cb74f4022dd5c45bca1fb5b93616a799d1057e9ddd51fbd430c",
+      "bodyTextPrefix": "Connect Live markets Prediction Markets Trade on real-world even",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-built.json",
+  "divergesFromBaseline": false,
+  "baselineReasons": []
+}

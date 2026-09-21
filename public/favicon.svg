@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" role="img" aria-label="Predictix">
+  <rect width="16" height="16" rx="3.5" fill="#171412"/>
+  <rect x="3" y="4" width="2" height="8" fill="#9DC9BE"/>
+  <path fill="#9DC9BE" d="M6 4l4 4-4 4V10l2-2-2-2z"/>
+  <path fill="#9DC9BE" d="M10 4l4 4-4 4V10l2-2-2-2z"/>
+</svg>
