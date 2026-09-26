@@ -1,4 +1,6 @@
-import { authClient, authEnabled } from "./client";
+import { useSyncExternalStore } from "react";
+import { authEnabled } from "./client";
+import { readWalletSession, subscribeWalletSession, type WalletSession } from "./wallet-session";
 
 /** Normalized user shape used across the app, auth on or off. */
 export type AppUser = {
@@ -13,9 +15,9 @@ export type AppUser = {
 /**
  * Stable fallback user, used ONLY when auth is disabled
  * (`VITE_AUTH_ENABLED=false`, the shipped default). With auth on, the sandbox
- * live preview does real sign-in via the baked preview client. Its id is
- * `"dev-user"` — the SAME id `verify.server.ts` returns server-side — so per-user
- * rows written in that mode belong to one consistent owner.
+ * live preview does real wallet sign-in. Its id is `"dev-user"` — the SAME id
+ * `verify.server.ts` returns server-side — so per-user rows written in that
+ * mode belong to one consistent owner.
  */
 export const DEV_USER: AppUser = {
   id: "dev-user",
@@ -33,44 +35,35 @@ export type CurrentUserState = {
   isPending: boolean;
 };
 
+function sessionToUser(session: WalletSession | null): AppUser | null {
+  if (!session) return null;
+  return {
+    id: session.id,
+    displayName: session.name,
+    primaryEmail: session.id,
+    profileImageUrl: session.image,
+    isDevFallback: false,
+  };
+}
+
+const emptySubscribe = () => () => {};
+const serverSnapshot = (): WalletSession | null => null;
+
 /**
- * Current user + loading state. Same behavior in live preview and when deployed:
- *   - Auth enabled -> the real signed-in user; `user` is `null` while
- *                            the session resolves (`isPending: true`) and when
- *                            signed out (`isPending: false`). Session comes from
- *                            Better Auth `useSession()` → `/api/auth/get-session`
- *                            (cookie when deployed; bearer in live preview).
- *   - Auth disabled (`VITE_AUTH_ENABLED=false`) -> `DEV_USER`, never pending.
- *
- * Protect a route by waiting out `isPending` before acting on `user` —
- * redirecting on `user: null` alone bounces signed-in visitors to sign-in on
- * every hard reload:
- *
- *   import { RedirectToSignIn } from "@/lib/auth/gates";
- *   const { user, isPending } = useCurrentUserState();
- *   if (isPending) return null;              // still resolving — don't redirect yet
- *   if (!user) return <RedirectToSignIn />;  // definitely signed out
- *
- * `authEnabled` is a module-level constant fixed at load, so the guarded hook
- * call keeps a stable hook order across every render of a given component.
+ * Current user + loading state.
+ * Auth on: the connected wallet, once the client session store has hydrated.
+ * Auth off: the shared dev user, never pending.
  */
 export function useCurrentUserState(): CurrentUserState {
+  const session = useSyncExternalStore(subscribeWalletSession, readWalletSession, serverSnapshot);
+  const hydrated = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
   if (!authEnabled) return { user: DEV_USER, isPending: false };
-  // eslint-disable-next-line react-hooks/rules-of-hooks -- authEnabled is constant for the app's lifetime
-  const { data, isPending } = authClient.useSession();
-  const user = data?.user;
-  return {
-    user: user
-      ? {
-          id: user.id,
-          displayName: user.name ?? null,
-          primaryEmail: user.email ?? null,
-          profileImageUrl: user.image ?? null,
-          isDevFallback: false,
-        }
-      : null,
-    isPending,
-  };
+  if (!hydrated) return { user: null, isPending: true };
+  return { user: sessionToUser(session), isPending: false };
 }
 
 /**

@@ -1,15 +1,23 @@
-import type { ReactNode } from "react";
+import { useEffect, useState, type ComponentType, type ReactNode } from "react";
 
 /**
- * App-wide client provider mounted once near the root (in `src/routes/__root.tsx`):
- *
- *   <AuthProvider><Outlet /></AuthProvider>
- *
- * Better Auth's React client (`@/lib/auth/client`) needs NO context provider —
- * its `useSession()` works standalone — so this is a passthrough today. It's
- * kept as the single, stable mount point for any future client-side providers
- * (e.g. a toast or theme provider) without churning the root shell.
+ * Mounts RainbowKit on the client only. The server render stays a passthrough
+ * so wagmi never runs during SSR (the live preview iframe still hydrates the
+ * connect button immediately after).
  */
 export function AuthProvider({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+  const [WalletProvider, setWalletProvider] = useState<ComponentType<{ children: ReactNode }> | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    void import("./wallet-provider").then((mod) => {
+      if (!cancelled) setWalletProvider(() => mod.WalletProvider);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (!WalletProvider) return <>{children}</>;
+  return <WalletProvider>{children}</WalletProvider>;
 }

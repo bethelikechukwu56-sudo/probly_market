@@ -6,6 +6,7 @@ import { cn, formatAddress } from "@/lib/utils";
 import { FaucetButton } from "@/components/FaucetButton";
 import { useCurrentUserState } from "@/lib/auth/use-current-user";
 import { UserButton } from "@/lib/auth/gates";
+import { ConnectWalletButton } from "@/components/auth/ConnectWalletButton";
 import { useMyPulse } from "@/lib/pulse-query";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
@@ -15,19 +16,10 @@ import problyLogo from "@/assets/probly-wordmark.png";
 
 function AuthSlot() {
   const { user, isPending } = useCurrentUserState();
-  const { t } = useI18n();
   if (isPending) {
     return <div className="h-11 w-24 animate-pulse rounded-lg bg-secondary" />;
   }
-  if (!user) {
-    return (
-      <Link to="/login">
-        <Button variant="secondary" size="sm">
-          {t("nav.signIn")}
-        </Button>
-      </Link>
-    );
-  }
+  if (!user) return <ConnectWalletButton />;
   return (
     <div className="flex items-center gap-2">
       <WalletChip />
@@ -172,13 +164,9 @@ export function Header() {
                 {t("nav.createMarket")}
               </Link>
             ) : !isPending ? (
-              <Link
-                to="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex min-h-11 items-center gap-3 rounded-lg px-4 text-sm font-medium text-muted-foreground"
-              >
-                {t("nav.signIn")}
-              </Link>
+              <div className="px-4">
+                <ConnectWalletButton />
+              </div>
             ) : null}
             {user ? (
               <Link

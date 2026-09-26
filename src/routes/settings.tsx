@@ -4,7 +4,8 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { authClient } from "@/lib/auth/client";
+import { refreshWalletProfile } from "@/lib/auth/wallet-api";
+import { applyWalletSession } from "@/lib/auth/wallet-session";
 import { useCurrentUserState } from "@/lib/auth/use-current-user";
 import { saveProfile } from "@/lib/nft-api";
 import { useI18n } from "@/lib/i18n";
@@ -82,12 +83,8 @@ function SettingsPage() {
         toast.error(result.message);
         return;
       }
-      try {
-        await authClient.updateUser({ name: name.trim(), image });
-      } catch {
-        /* the row is already saved; the session refresh below still reads it */
-      }
-      await authClient.getSession({ query: { disableCookieCache: true } });
+      const refreshed = await refreshWalletProfile();
+      applyWalletSession(refreshed);
       toast.success(t("settings.saved"));
     } catch {
       toast.error(t("settings.failed"));

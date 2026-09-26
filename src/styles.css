@@ -217,6 +217,13 @@
   }
 }
 
+[data-rk] {
+  font-family: "Nunito", ui-sans-serif, system-ui, sans-serif;
+}
+[data-rk] [role="dialog"] {
+  border: 3px solid var(--ink) !important;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
