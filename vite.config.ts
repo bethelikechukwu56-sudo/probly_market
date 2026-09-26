@@ -145,16 +145,24 @@ function authPopupPlugin(): Plugin {
 // `0.0.0.0:8080` is the live-preview contract — don't change host/port.
 // The dev server starts once `src/router.tsx` and `src/routes/` exist — see
 // AGENTS.md § "First scaffold".
+const PREVIEW_HOST =
+  "hds-9yj10830nr4z-6014-7idz0.grok-code-wild.hades-www.grok-sandbox.com";
+
 export default defineConfig(({ command, isPreview }) => ({
   server: {
     host: "0.0.0.0",
     port: 8080,
     strictPort: true,
+    // Vite blocks unknown Host headers before Better Auth. The live preview is
+    // a nested *.grok-sandbox.com host; without this, Google and email sign-in
+    // never reach auth ("Blocked request. This host is not allowed.").
+    allowedHosts: [".grok-sandbox.com", PREVIEW_HOST],
   },
   preview: {
     host: "127.0.0.1",
     port: 8081,
     strictPort: true,
+    allowedHosts: [".grok-sandbox.com", PREVIEW_HOST],
   },
   resolve: { tsconfigPaths: true },
   plugins: [

@@ -115,15 +115,15 @@ const baseURL = explicitBaseURL ?? {
 
 // Origins Better Auth accepts on credentialed POSTs (sign-up/sign-in, etc.).
 // Missing entries here surface as FORBIDDEN "Invalid origin".
+// Always include preview hosts, even when BETTER_AUTH_URL is injected, so the
+// live-preview origin is not dropped from the allowlist.
+const previewOrigins = [
+  ...previewAllowedHosts,
+  ...previewAllowedHosts.flatMap((host) => [`https://${host}`, `http://${host}`]),
+];
 const trustedOrigins: string[] = explicitBaseURL
-  ? [explicitBaseURL, ...LOCAL_DEV_ORIGINS]
-  : [
-      // Host wildcards (matched against Origin's host)
-      ...previewAllowedHosts,
-      // Full-origin wildcards (matched against Origin)
-      ...previewAllowedHosts.flatMap((host) => [`https://${host}`, `http://${host}`]),
-      ...LOCAL_DEV_ORIGINS,
-    ];
+  ? [explicitBaseURL, ...previewOrigins, ...LOCAL_DEV_ORIGINS]
+  : [...previewOrigins, ...LOCAL_DEV_ORIGINS];
 
 const databaseUrl = env("DATABASE_URL");
 
