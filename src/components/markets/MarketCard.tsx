@@ -4,8 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, TrendingDown, Clock, BarChart3 } from "lucide-react";
 import { cn, formatDate, formatVolume } from "@/lib/utils";
+import { ReactionBar } from "./ReactionBar";
+import { useI18n } from "@/lib/i18n";
 
 export function MarketCard({ market }: { market: Market }) {
+  const { t, intlTag } = useI18n();
   const yesChange = market.outcomes[0]?.change24h || 0;
   const isPositive = yesChange >= 0;
 
@@ -29,12 +32,10 @@ export function MarketCard({ market }: { market: Market }) {
               {market.title}
             </h3>
             <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-              <Badge variant="secondary" className="capitalize">
-                {market.category}
-              </Badge>
+              <Badge variant="secondary">{t(`category.${market.category}` as "category.crypto")}</Badge>
               <span className="flex items-center gap-1">
                 <Clock className="h-3 w-3" />
-                {formatDate(market.endDate)}
+                {formatDate(market.endDate, undefined, intlTag)}
               </span>
             </div>
           </div>
@@ -43,7 +44,7 @@ export function MarketCard({ market }: { market: Market }) {
         <div className="mb-4 space-y-3">
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Yes</span>
+              <span className="text-muted-foreground">{t("yes")}</span>
               <div className="flex items-center gap-2">
                 <span className="font-semibold text-success tabular-nums">
                   {(market.yesPrice * 100).toFixed(0)}¢
@@ -72,7 +73,7 @@ export function MarketCard({ market }: { market: Market }) {
           </div>
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">No</span>
+              <span className="text-muted-foreground">{t("no")}</span>
               <span className="font-semibold text-danger tabular-nums">
                 {(market.noPrice * 100).toFixed(0)}¢
               </span>
@@ -88,19 +89,19 @@ export function MarketCard({ market }: { market: Market }) {
 
         <div className="mt-auto flex items-center gap-2">
           <Button variant="yes" className="flex-1" size="sm" tabIndex={-1}>
-            Buy Yes
+            {t("buyYes")}
           </Button>
           <Button variant="no" className="flex-1" size="sm" tabIndex={-1}>
-            Buy No
+            {t("buyNo")}
           </Button>
         </div>
 
-        <div className="mt-3 flex items-center justify-between border-t border-border/50 pt-3 text-xs text-muted-foreground">
+        <div className="mt-3 flex items-center justify-between border-t border-border/50 pt-2 text-xs text-muted-foreground">
           <span className="flex items-center gap-1">
             <BarChart3 className="h-3 w-3" />
-            {formatVolume(market.volume)} Vol
+            {formatVolume(market.volume)} {t("vol")}
           </span>
-          <span>{formatVolume(market.liquidity)} Liq</span>
+          <ReactionBar market={market} compact />
         </div>
       </article>
     </Link>

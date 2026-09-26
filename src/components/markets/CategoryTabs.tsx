@@ -10,16 +10,17 @@ import {
   FlaskConical,
   TrendingUp,
 } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
-const categories: { id: Category; label: string; icon: typeof LayoutGrid }[] = [
-  { id: "all", label: "All", icon: LayoutGrid },
-  { id: "crypto", label: "Crypto", icon: Bitcoin },
-  { id: "politics", label: "Politics", icon: Vote },
-  { id: "sports", label: "Sports", icon: Trophy },
-  { id: "entertainment", label: "Entertainment", icon: Film },
-  { id: "tech", label: "Tech", icon: Cpu },
-  { id: "science", label: "Science", icon: FlaskConical },
-  { id: "economics", label: "Economics", icon: TrendingUp },
+const categories: { id: Category; icon: typeof LayoutGrid }[] = [
+  { id: "all", icon: LayoutGrid },
+  { id: "crypto", icon: Bitcoin },
+  { id: "politics", icon: Vote },
+  { id: "sports", icon: Trophy },
+  { id: "entertainment", icon: Film },
+  { id: "tech", icon: Cpu },
+  { id: "science", icon: FlaskConical },
+  { id: "economics", icon: TrendingUp },
 ];
 
 interface CategoryTabsProps {
@@ -28,6 +29,7 @@ interface CategoryTabsProps {
 }
 
 export function CategoryTabs({ activeCategory, onCategoryChange }: CategoryTabsProps) {
+  const { t } = useI18n();
   return (
     <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-2">
       {categories.map((category) => (
@@ -36,14 +38,14 @@ export function CategoryTabs({ activeCategory, onCategoryChange }: CategoryTabsP
           type="button"
           onClick={() => onCategoryChange(category.id)}
           className={cn(
-            "flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-4 text-sm font-medium whitespace-nowrap transition-colors",
+            "comic-tab flex min-h-11 shrink-0 items-center gap-2 rounded-lg px-4 text-sm font-extrabold whitespace-nowrap transition-transform",
             activeCategory === category.id
               ? "bg-primary text-primary-foreground"
-              : "bg-secondary text-muted-foreground hover:bg-secondary/80 hover:text-foreground",
+              : "bg-card text-muted-foreground hover:bg-accent hover:text-accent-foreground",
           )}
         >
           <category.icon className="h-4 w-4" />
-          {category.label}
+          {t(`category.${category.id}`)}
         </button>
       ))}
     </div>

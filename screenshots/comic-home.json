@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Probly",
+      "hasCanvas": false,
+      "bodyTextLen": 2145,
+      "bodyTextHash": "d34571870f322f71711f6ec1dfbb85cf44f139a6f970b24e5d5e9632b5841886",
+      "bodyTextPrefix": "Markets NFTs Portfolio Leaderboard EN Live markets Prediction Ma",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/comic-home.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Probly",
+      "hasCanvas": false,
+      "bodyTextLen": 2107,
+      "bodyTextHash": "29864645d3c262c0040f6ddd960d739c764d2f5c40a5575894d721a7c5a958ec",
+      "bodyTextPrefix": "Live markets Prediction Markets Trade on real-world events with ",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/comic-home-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/comic-home.json"
+}

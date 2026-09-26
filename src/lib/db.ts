@@ -137,6 +137,8 @@ async function createPgliteSql(): Promise<Sql> {
   // passes serialized on a global chain so concurrent callers never
   // double-apply.
   const migrate = async (): Promise<void> => {
+    // migrations/*.sql is the schema source (0003_nft.sql included). Glob is eager,
+    // so this module must reload when a new migration file is added.
     const migrations = import.meta.glob("/migrations/*.sql", {
       query: "?raw",
       import: "default",

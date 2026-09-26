@@ -1,18 +1,18 @@
 import { Market } from "@/types/market";
 import { MarketCard } from "./MarketCard";
 import { SearchX } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export function MarketGrid({ markets }: { markets: Market[] }) {
+  const { t } = useI18n();
   if (markets.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
         <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-secondary">
           <SearchX className="h-7 w-7 text-muted-foreground" />
         </div>
-        <h3 className="mb-2 text-lg font-semibold">No markets found</h3>
-        <p className="text-sm text-muted-foreground">
-          Try a different category or check back later.
-        </p>
+        <h3 className="mb-2 text-lg font-semibold">{t("grid.emptyTitle")}</h3>
+        <p className="text-sm text-muted-foreground">{t("grid.emptyBody")}</p>
       </div>
     );
   }

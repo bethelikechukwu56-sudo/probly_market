@@ -1,0 +1,41 @@
+{
+  "url": "http://127.0.0.1:8081/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Probly",
+      "hasCanvas": false,
+      "bodyTextLen": 2153,
+      "bodyTextHash": "f9bf7b21a259adaca49aabac289b9e9ed798d6a7bcfb3d85f40215e157b626d6",
+      "bodyTextPrefix": "Markets NFTs Portfolio Leaderboard EN Sign in Live markets Predi",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/probly-built.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Probly",
+      "hasCanvas": false,
+      "bodyTextLen": 2115,
+      "bodyTextHash": "1482aed55239a679fcb51c9b62391a9c45d785320454b3d58d247b80dd0d5710",
+      "bodyTextPrefix": "Sign in Live markets Prediction Markets Trade on real-world even",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/probly-built-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/probly-built.json",
+  "divergesFromBaseline": true,
+  "baselineReasons": [
+    "desktop: body text replaced (similar length, page start changed)",
+    "mobile: body text replaced (similar length, page start changed)"
+  ]
+}

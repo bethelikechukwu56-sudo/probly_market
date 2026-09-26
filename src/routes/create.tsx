@@ -12,10 +12,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { usePulse } from "@/store/pulse";
+import { createMarket } from "@/lib/pulse-api";
+import { useInvalidatePulse, useMyPulse } from "@/lib/pulse-query";
+import { useCurrentUserState } from "@/lib/auth/use-current-user";
 import { toast } from "sonner";
 import { ArrowLeft, Loader2, Sparkles, Calendar, Link as LinkIcon, DollarSign } from "lucide-react";
 import { Category } from "@/types/market";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/create")({ component: CreateMarketPage });
 
@@ -38,61 +41,72 @@ function CreateMarketPage() {
   const [imageUrl, setImageUrl] = useState("");
   const [initialLiquidity, setInitialLiquidity] = useState("100");
   const [pending, setPending] = useState(false);
-
-  const session = usePulse((s) => s.session);
-  const wallet = usePulse((s) => s.wallet);
-  const connectWallet = usePulse((s) => s.connectWallet);
-  const createMarket = usePulse((s) => s.createMarket);
+  const { user, isPending } = useCurrentUserState();
+  const me = useMyPulse();
+  const wallet = me.data?.wallet;
+  const invalidate = useInvalidatePulse();
   const navigate = useNavigate();
+  const { t } = useI18n();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!session) {
-      void navigate({ to: "/auth" });
-      return;
-    }
-    if (!wallet.connected) {
-      connectWallet();
+    if (!user) {
+      void navigate({ to: "/login" });
       return;
     }
     if (!title || !description || !category || !endDate || !resolutionSource) {
-      toast.error("Missing fields", { description: "Fill in all required fields." });
+      toast.error(t("create.missing"), { description: t("create.missingBody") });
       return;
     }
     setPending(true);
-    await new Promise((r) => setTimeout(r, 500));
-    const result = createMarket({
-      title,
-      description,
-      category,
-      endDate: new Date(endDate).toISOString(),
-      resolutionSource,
-      imageUrl: imageUrl || undefined,
-      liquidity: parseFloat(initialLiquidity),
-    });
-    setPending(false);
-    if (!result.ok || !result.id) {
-      toast.error("Could not create market", { description: result.message });
-      return;
+    try {
+      const result = await createMarket({
+        data: {
+          title,
+          description,
+          category,
+          endDate: new Date(endDate).toISOString(),
+          resolutionSource,
+          imageUrl: imageUrl || undefined,
+          liquidity: parseFloat(initialLiquidity),
+        },
+      });
+      if (!result.ok || !result.id) {
+        toast.error(t("create.failed"), { description: result.message });
+        return;
+      }
+      toast.success(t("create.success"), { description: result.message });
+      invalidate();
+      void navigate({ to: "/market/$id", params: { id: result.id } });
+    } catch {
+      toast.error(t("create.signInError"));
+    } finally {
+      setPending(false);
     }
-    toast.success("Market created", { description: result.message });
-    void navigate({ to: "/market/$id", params: { id: result.id } });
   };
 
-  if (!session) {
+  if (isPending) {
+    return (
+      <Layout>
+        <div className="h-40 animate-pulse rounded-2xl bg-secondary" />
+      </Layout>
+    );
+  }
+
+  if (!user) {
     return (
       <Layout>
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-secondary">
             <Sparkles className="h-10 w-10 text-muted-foreground" />
           </div>
-          <h1 className="font-display mb-2 text-2xl font-bold">Sign in required</h1>
+          <h1 className="font-display mb-2 text-2xl font-bold">{t("create.signInTitle")}</h1>
           <p className="mb-6 max-w-md text-muted-foreground">
-            You need to be signed in to create a prediction market.
+            {t("create.signInBody")}
           </p>
-          <Link to="/auth">
+          <Link to="/login">
             <Button variant="wallet" size="lg">
-              Sign in to continue
+              {t("create.continue")}
             </Button>
           </Link>
         </div>
@@ -107,21 +121,21 @@ function CreateMarketPage() {
         className="mb-6 inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft className="h-4 w-4" />
-        Back to markets
+        {t("market.back")}
       </Link>
 
       <div className="mx-auto max-w-2xl">
         <div className="mb-8">
-          <h1 className="font-display mb-2 text-3xl font-bold">Create market</h1>
+          <h1 className="font-display mb-2 text-3xl font-bold">{t("create.title")}</h1>
           <p className="text-muted-foreground">
-            Launch a yes/no market for the community to trade.
+            {t("create.subtitle")}
           </p>
         </div>
 
         <form onSubmit={(e) => void handleSubmit(e)} className="space-y-6">
           <div className="card-surface space-y-5 rounded-2xl border border-border/50 p-6">
             <div className="space-y-2">
-              <Label htmlFor="title">Market question</Label>
+              <Label htmlFor="title">{t("create.question")}</Label>
               <Input
                 id="title"
                 placeholder="Will Bitcoin reach $150K by end of 2026?"
@@ -131,10 +145,10 @@ function CreateMarketPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="description">Resolution criteria</Label>
+              <Label htmlFor="description">{t("create.criteria")}</Label>
               <Textarea
                 id="description"
-                placeholder="Describe exactly how and when this market will be resolved."
+                placeholder={t("create.criteria")}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
@@ -142,22 +156,22 @@ function CreateMarketPage() {
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <Label>Category</Label>
+                <Label>{t("create.category")}</Label>
                 <Select value={category} onValueChange={(v) => setCategory(v as Exclude<Category, "all">)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select category" />
+                    <SelectValue placeholder={t("create.selectCategory")} />
                   </SelectTrigger>
                   <SelectContent>
                     {CATEGORY_OPTIONS.map((cat) => (
-                      <SelectItem key={cat} value={cat} className="capitalize">
-                        {cat}
+                      <SelectItem key={cat} value={cat}>
+                        {t(`category.${cat}` as "category.crypto")}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="endDate">End date</Label>
+                <Label htmlFor="endDate">{t("create.endDate")}</Label>
                 <div className="relative">
                   <Calendar className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
@@ -171,7 +185,7 @@ function CreateMarketPage() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="resolutionSource">Resolution source</Label>
+              <Label htmlFor="resolutionSource">{t("create.source")}</Label>
               <div className="relative">
                 <LinkIcon className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
@@ -184,7 +198,7 @@ function CreateMarketPage() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="imageUrl">Image URL (optional)</Label>
+              <Label htmlFor="imageUrl">{t("create.image")}</Label>
               <Input
                 id="imageUrl"
                 placeholder="https://example.com/image.png"
@@ -193,7 +207,7 @@ function CreateMarketPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="liquidity">Initial liquidity (RIA)</Label>
+              <Label htmlFor="liquidity">{t("create.liquidity")}</Label>
               <div className="relative">
                 <DollarSign className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
@@ -207,20 +221,20 @@ function CreateMarketPage() {
                 />
               </div>
               <p className="text-xs text-muted-foreground">
-                Minimum 10 RIA.
-                {wallet.connected ? ` Balance: ${wallet.balance.toFixed(2)} RIA` : ""}
+                {t("create.minLiq")}
+                {wallet ? ` ${t("create.balance", { balance: wallet.balance.toFixed(2) })}` : ""}
               </p>
             </div>
           </div>
           <div className="flex justify-end gap-3">
             <Link to="/">
               <Button variant="outline" type="button">
-                Cancel
+                {t("create.cancel")}
               </Button>
             </Link>
             <Button type="submit" disabled={pending} className="min-w-[140px]">
               {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-              {pending ? "Creating" : "Create market"}
+              {pending ? t("create.creating") : t("create.submit")}
             </Button>
           </div>
         </form>

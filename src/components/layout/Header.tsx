@@ -1,61 +1,107 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import {
-  Menu,
-  X,
-  TrendingUp,
-  LayoutGrid,
-  Trophy,
-  Plus,
-  Wallet,
-  LogOut,
-} from "lucide-react";
+import { Menu, X, TrendingUp, LayoutGrid, Trophy, Plus, Wallet, Gem, Settings } from "lucide-react";
 import { cn, formatAddress } from "@/lib/utils";
 import { FaucetButton } from "@/components/FaucetButton";
-import { usePulse } from "@/store/pulse";
-import predictixLogo from "@/assets/predictix-logo.png";
+import { useCurrentUserState } from "@/lib/auth/use-current-user";
+import { UserButton } from "@/lib/auth/gates";
+import { useMyPulse } from "@/lib/pulse-query";
+import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n";
+import { ThemeToggle } from "@/components/prefs/ThemeToggle";
+import { LanguageSelect } from "@/components/prefs/LanguageSelect";
+import problyLogo from "@/assets/probly-wordmark.png";
 
-const navItems = [
-  { to: "/", label: "Markets", icon: LayoutGrid },
-  { to: "/portfolio", label: "Portfolio", icon: TrendingUp },
-  { to: "/leaderboard", label: "Leaderboard", icon: Trophy },
-] as const;
+function AuthSlot() {
+  const { user, isPending } = useCurrentUserState();
+  const { t } = useI18n();
+  if (isPending) {
+    return <div className="h-11 w-24 animate-pulse rounded-lg bg-secondary" />;
+  }
+  if (!user) {
+    return (
+      <Link to="/login">
+        <Button variant="secondary" size="sm">
+          {t("nav.signIn")}
+        </Button>
+      </Link>
+    );
+  }
+  return (
+    <div className="flex items-center gap-2">
+      <WalletChip />
+      <div className="hidden max-w-[220px] sm:block [&>div>span.text-sm.font-medium]:max-w-[7rem] [&>div>span.text-sm.font-medium]:truncate">
+        <UserButton />
+      </div>
+    </div>
+  );
+}
+
+function WalletChip() {
+  const me = useMyPulse();
+  const { t } = useI18n();
+  const wallet = me.data?.wallet;
+  if (!wallet) {
+    return <div className="hidden h-11 w-28 animate-pulse rounded-lg bg-secondary sm:block" />;
+  }
+  return (
+    <button
+      type="button"
+      className="hidden min-h-11 items-center gap-2 rounded-lg border border-primary/30 px-3 text-sm sm:inline-flex"
+      onClick={() => {
+        void navigator.clipboard.writeText(wallet.address);
+        toast.success(t("faucet.copied"));
+      }}
+      title={wallet.address}
+    >
+      <Wallet className="h-4 w-4 text-primary" />
+      <span className="tabular-nums">{wallet.balance.toFixed(2)} RIA</span>
+      <span className="hidden text-xs text-muted-foreground lg:inline">{formatAddress(wallet.address)}</span>
+    </button>
+  );
+}
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const session = usePulse((s) => s.session);
-  const wallet = usePulse((s) => s.wallet);
-  const connectWallet = usePulse((s) => s.connectWallet);
-  const disconnectWallet = usePulse((s) => s.disconnectWallet);
+  const { user, isPending } = useCurrentUserState();
+  const { t } = useI18n();
+  const navItems = [
+    { to: "/", label: t("nav.markets"), icon: LayoutGrid },
+    { to: "/nfts", label: t("nav.nfts"), icon: Gem },
+    { to: "/portfolio", label: t("nav.portfolio"), icon: TrendingUp },
+    { to: "/leaderboard", label: t("nav.leaderboard"), icon: Trophy },
+  ] as const;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 glass-bar">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-        <Link to="/" className="group flex items-center gap-3">
+        <Link to="/" className="group flex items-center">
           <img
-            src={predictixLogo}
-            alt="Predictix"
-            className="h-9 w-9 rounded-xl transition-transform group-hover:scale-105"
+            src={problyLogo}
+            alt="Probly"
+            className="h-9 w-auto invert transition-transform group-hover:scale-[1.03] dark:invert-0 sm:h-10"
           />
-          <span className="font-display hidden text-xl font-bold sm:block">
-            Predict<span className="text-primary">ix</span>
-          </span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
           {navItems.map((item) => {
-            const active = pathname === item.to;
+            const active =
+              item.to === "/"
+                ? pathname === "/"
+                : item.to === "/nfts"
+                  ? pathname === "/nfts" || pathname.startsWith("/nft/")
+                  : pathname === item.to;
             return (
               <Link
                 key={item.to}
                 to={item.to}
                 className={cn(
-                  "flex min-h-11 items-center gap-2 rounded-lg px-4 text-sm font-medium transition-colors",
+                  "flex min-h-11 items-center gap-2 rounded-lg px-4 text-sm font-extrabold transition-transform",
                   active
-                    ? "bg-secondary text-foreground"
-                    : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground",
+                    ? "comic-tab bg-accent text-accent-foreground"
+                    : "text-muted-foreground hover:bg-secondary/70 hover:text-foreground",
                 )}
               >
                 <item.icon className="h-4 w-4" />
@@ -65,49 +111,32 @@ export function Header() {
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           <FaucetButton />
-          {session ? (
+          {user ? (
             <Link to="/create" className="hidden sm:block">
               <Button variant="ghost" size="sm" className="gap-2">
                 <Plus className="h-4 w-4" />
-                Create
+                {t("nav.create")}
               </Button>
             </Link>
           ) : null}
-
-          {wallet.connected && wallet.address ? (
-            <Button
-              variant="outline"
-              size="sm"
-              className="hidden gap-2 sm:inline-flex"
-              onClick={disconnectWallet}
-            >
-              <Wallet className="h-4 w-4 text-primary" />
-              {formatAddress(wallet.address)}
-              <LogOut className="h-3.5 w-3.5 text-muted-foreground" />
-            </Button>
-          ) : (
-            <Button variant="wallet" size="sm" onClick={connectWallet}>
-              <Wallet className="h-4 w-4" />
-              Connect
-            </Button>
-          )}
-
-          {!session ? (
-            <Link to="/auth" className="hidden sm:block">
-              <Button variant="secondary" size="sm">
-                Sign in
+          {user ? (
+            <Link to="/settings" className="hidden md:block" aria-label={t("nav.settings")}>
+              <Button variant="ghost" size="icon">
+                <Settings className="h-4 w-4" />
               </Button>
             </Link>
           ) : null}
-
+          <ThemeToggle />
+          <LanguageSelect />
+          <AuthSlot />
           <Button
             variant="ghost"
             size="icon"
             className="md:hidden"
             onClick={() => setMobileMenuOpen((v) => !v)}
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-label={mobileMenuOpen ? t("nav.closeMenu") : t("nav.openMenu")}
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
@@ -123,34 +152,49 @@ export function Header() {
                 to={item.to}
                 onClick={() => setMobileMenuOpen(false)}
                 className={cn(
-                  "flex min-h-11 items-center gap-3 rounded-lg px-4 text-sm font-medium",
-                  pathname === item.to
-                    ? "bg-secondary text-foreground"
-                    : "text-muted-foreground",
+                  "comic-tab flex min-h-11 items-center gap-3 rounded-lg px-4 text-sm font-extrabold",
+                  pathname === item.to || (item.to === "/nfts" && pathname.startsWith("/nft/"))
+                    ? "bg-accent text-accent-foreground"
+                    : "bg-card text-muted-foreground",
                 )}
               >
                 <item.icon className="h-5 w-5" />
                 {item.label}
               </Link>
             ))}
-            {session ? (
+            {user ? (
               <Link
                 to="/create"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex min-h-11 items-center gap-3 rounded-lg px-4 text-sm font-medium text-muted-foreground"
               >
                 <Plus className="h-5 w-5" />
-                Create Market
+                {t("nav.createMarket")}
               </Link>
-            ) : (
+            ) : !isPending ? (
               <Link
-                to="/auth"
+                to="/login"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex min-h-11 items-center gap-3 rounded-lg px-4 text-sm font-medium text-muted-foreground"
               >
-                Sign in
+                {t("nav.signIn")}
               </Link>
-            )}
+            ) : null}
+            {user ? (
+              <Link
+                to="/settings"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex min-h-11 items-center gap-3 rounded-lg px-4 text-sm font-medium text-muted-foreground"
+              >
+                <Settings className="h-5 w-5" />
+                {t("nav.settings")}
+              </Link>
+            ) : null}
+            {user ? (
+              <div className="px-4 py-2">
+                <UserButton />
+              </div>
+            ) : null}
           </nav>
         </div>
       ) : null}

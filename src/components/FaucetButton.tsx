@@ -2,49 +2,57 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Droplets, Loader2, Check } from "lucide-react";
 import { toast } from "sonner";
-import { usePulse } from "@/store/pulse";
+import { claimFaucet } from "@/lib/pulse-api";
+import { useInvalidatePulse, useMyPulse } from "@/lib/pulse-query";
+import { useI18n } from "@/lib/i18n";
 
 export function FaucetButton() {
   const [isLoading, setIsLoading] = useState(false);
-  const wallet = usePulse((s) => s.wallet);
-  const claimFaucet = usePulse((s) => s.claimFaucet);
-  const claimed =
-    !!wallet.faucetClaimedAt &&
-    Date.now() - wallet.faucetClaimedAt < 24 * 60 * 60 * 1000;
-
-  if (!wallet.connected) return null;
+  const me = useMyPulse();
+  const invalidate = useInvalidatePulse();
+  const { t } = useI18n();
+  const wallet = me.data?.wallet;
+  if (!wallet) return null;
 
   const handleClaim = async () => {
     setIsLoading(true);
-    await new Promise((r) => setTimeout(r, 600));
-    const result = claimFaucet();
-    if (result.ok) toast.success("Faucet claimed", { description: result.message });
-    else toast.error("Claim failed", { description: result.message });
-    setIsLoading(false);
+    try {
+      const result = await claimFaucet();
+      if (result.ok) {
+        toast.success(t("faucet.claimed"), { description: result.message });
+        invalidate();
+      } else {
+        toast.error(result.message);
+      }
+    } catch {
+      toast.error(t("trade.signIn"));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <Button
       variant="outline"
       size="sm"
-      onClick={handleClaim}
-      disabled={isLoading || claimed}
+      onClick={() => void handleClaim()}
+      disabled={isLoading || !wallet.faucetReady}
       className="hidden gap-2 border-primary/30 text-primary hover:bg-primary/10 sm:inline-flex"
     >
       {isLoading ? (
         <>
           <Loader2 className="h-4 w-4 animate-spin" />
-          Claiming
+          {t("faucet.claiming")}
         </>
-      ) : claimed ? (
+      ) : !wallet.faucetReady ? (
         <>
           <Check className="h-4 w-4" />
-          Claimed
+          {t("faucet.claimed")}
         </>
       ) : (
         <>
           <Droplets className="h-4 w-4" />
-          Faucet
+          {t("faucet.label")}
         </>
       )}
     </Button>

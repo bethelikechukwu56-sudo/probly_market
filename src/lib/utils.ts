@@ -21,8 +21,12 @@ export function formatUsd(value: number): string {
   });
 }
 
-export function formatDate(dateString: string, opts?: Intl.DateTimeFormatOptions): string {
-  return new Date(dateString).toLocaleDateString("en-US", opts ?? {
+export function formatDate(
+  dateString: string,
+  opts?: Intl.DateTimeFormatOptions,
+  locale = "en-US",
+): string {
+  return new Date(dateString).toLocaleDateString(locale, opts ?? {
     month: "short",
     day: "numeric",
     year: "numeric",

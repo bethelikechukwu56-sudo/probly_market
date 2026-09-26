@@ -1,17 +1,14 @@
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { Area, AreaChart, Tooltip, XAxis, YAxis } from "recharts";
 import { PricePoint } from "@/types/market";
+import { useI18n } from "@/lib/i18n";
+import { useTheme } from "@/lib/theme";
 
 interface PriceChartProps {
   yesHistory: PricePoint[];
   noHistory: PricePoint[];
-}
-
-function formatTime(timestamp: string): string {
-  return new Date(timestamp).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  });
+  yesLabel?: string;
+  noLabel?: string;
 }
 
 function ChartFrame({ children }: { children: (size: { w: number; h: number }) => ReactNode }) {
@@ -38,7 +35,25 @@ function ChartFrame({ children }: { children: (size: { w: number; h: number }) =
   );
 }
 
-export function PriceChart({ yesHistory, noHistory }: PriceChartProps) {
+function readCssVar(name: string, fallback: string) {
+  if (typeof window === "undefined") return fallback;
+  const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return value || fallback;
+}
+
+export function PriceChart({ yesHistory, noHistory, yesLabel, noLabel }: PriceChartProps) {
+  const { t, intlTag } = useI18n();
+  const { theme } = useTheme();
+  const colors = useMemo(
+    () => ({
+      muted: readCssVar("--chart-muted", "hsl(45 10% 62%)"),
+      tooltipBg: readCssVar("--chart-tooltip-bg", "hsl(20 10% 11%)"),
+      tooltipBorder: readCssVar("--chart-tooltip-border", "hsl(20 10% 20%)"),
+      tooltipFg: readCssVar("--chart-tooltip-fg", "hsl(45 20% 95%)"),
+    }),
+    [theme],
+  );
+
   const chartData = useMemo(() => {
     const allPoints = new Map<string, { timestamp: string; yes?: number; no?: number }>();
     for (const point of yesHistory) {
@@ -56,10 +71,13 @@ export function PriceChart({ yesHistory, noHistory }: PriceChartProps) {
     );
   }, [yesHistory, noHistory]);
 
+  const formatTime = (timestamp: string) =>
+    new Date(timestamp).toLocaleDateString(intlTag, { month: "short", day: "numeric" });
+
   if (chartData.length === 0) {
     return (
       <div className="flex h-56 items-center justify-center text-sm text-muted-foreground">
-        No price history yet
+        {t("chart.empty")}
       </div>
     );
   }
@@ -81,7 +99,7 @@ export function PriceChart({ yesHistory, noHistory }: PriceChartProps) {
           <XAxis
             dataKey="timestamp"
             tickFormatter={formatTime}
-            tick={{ fill: "hsl(45 10% 62%)", fontSize: 11 }}
+            tick={{ fill: colors.muted, fontSize: 11 }}
             axisLine={false}
             tickLine={false}
             minTickGap={28}
@@ -89,22 +107,22 @@ export function PriceChart({ yesHistory, noHistory }: PriceChartProps) {
           <YAxis
             domain={[0, 100]}
             tickFormatter={(v) => `${v}¢`}
-            tick={{ fill: "hsl(45 10% 62%)", fontSize: 11 }}
+            tick={{ fill: colors.muted, fontSize: 11 }}
             axisLine={false}
             tickLine={false}
             width={40}
           />
           <Tooltip
             contentStyle={{
-              background: "hsl(20 10% 11%)",
-              border: "1px solid hsl(20 10% 20%)",
+              background: colors.tooltipBg,
+              border: `1px solid ${colors.tooltipBorder}`,
               borderRadius: 12,
-              color: "hsl(45 20% 95%)",
+              color: colors.tooltipFg,
             }}
             labelFormatter={(label) => formatTime(String(label))}
             formatter={(value, name) => [
               `${Number(value).toFixed(1)}¢`,
-              name === "yes" ? "Yes" : "No",
+              name === "yes" ? (yesLabel ?? t("yes")) : (noLabel ?? t("no")),
             ]}
           />
           <Area

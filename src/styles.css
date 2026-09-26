@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme inline {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Lilita One", "Nunito", ui-sans-serif, system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -26,38 +28,83 @@
   --color-success-foreground: var(--success-foreground);
   --color-danger: var(--danger);
   --color-danger-foreground: var(--danger-foreground);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 8px);
+  --color-ink: var(--ink);
+  --radius-sm: 0.55rem;
+  --radius-md: 0.7rem;
+  --radius-lg: 0.9rem;
+  --radius-xl: 1.1rem;
 }
 
-:root {
-  --background: hsl(20 10% 8%);
-  --foreground: hsl(45 20% 95%);
-  --card: hsl(20 10% 11%);
-  --card-foreground: hsl(45 20% 95%);
-  --popover: hsl(20 10% 11%);
-  --popover-foreground: hsl(45 20% 95%);
-  --primary: hsl(165 30% 70%);
-  --primary-foreground: hsl(20 10% 8%);
-  --secondary: hsl(20 10% 15%);
-  --secondary-foreground: hsl(45 20% 90%);
-  --muted: hsl(20 10% 18%);
-  --muted-foreground: hsl(45 10% 62%);
-  --accent: hsl(45 30% 85%);
-  --accent-foreground: hsl(20 10% 8%);
-  --success: hsl(145 50% 42%);
-  --success-foreground: hsl(0 0% 100%);
-  --danger: hsl(0 62% 52%);
-  --danger-foreground: hsl(0 0% 100%);
-  --destructive: hsl(0 62% 52%);
-  --destructive-foreground: hsl(0 0% 100%);
-  --border: hsl(20 10% 20%);
-  --input: hsl(20 10% 15%);
-  --ring: hsl(165 30% 70%);
-  --radius: 0.75rem;
-  --shadow-card: 0 8px 28px hsl(0 0% 0% / 0.28);
+:root,
+.dark {
+  color-scheme: dark;
+  --background: #0c1224;
+  --foreground: #fff6e8;
+  --card: #162038;
+  --card-top: #1c2948;
+  --card-foreground: #fff6e8;
+  --popover: #162038;
+  --popover-foreground: #fff6e8;
+  --primary: #6aa2ff;
+  --primary-foreground: #07101f;
+  --secondary: #243356;
+  --secondary-foreground: #fff6e8;
+  --muted: #2a3a5e;
+  --muted-foreground: #d7ccbc;
+  --accent: #ffe566;
+  --accent-foreground: #16120a;
+  --success: #3ddc84;
+  --success-foreground: #052113;
+  --danger: #ff6b6b;
+  --danger-foreground: #2a0707;
+  --destructive: #ff6b6b;
+  --destructive-foreground: #2a0707;
+  --border: #fff6e8;
+  --input: #121a30;
+  --ring: #ffe566;
+  --ink: #fff6e8;
+  --halftone: rgb(255 246 232 / 0.11);
+  --radius: 0.9rem;
+  --shadow-card: 5px 5px 0 #fff6e8;
+  --chart-muted: #d7ccbc;
+  --chart-tooltip-bg: #162038;
+  --chart-tooltip-border: #fff6e8;
+  --chart-tooltip-fg: #fff6e8;
+}
+
+.light {
+  color-scheme: light;
+  --background: #f3ecdc;
+  --foreground: #16120a;
+  --card: #fffaf0;
+  --card-top: #fffdf8;
+  --card-foreground: #16120a;
+  --popover: #fffaf0;
+  --popover-foreground: #16120a;
+  --primary: #1d4ed8;
+  --primary-foreground: #fffaf0;
+  --secondary: #efe4cf;
+  --secondary-foreground: #16120a;
+  --muted: #e6d8c0;
+  --muted-foreground: #3f382c;
+  --accent: #ffe14a;
+  --accent-foreground: #16120a;
+  --success: #128a45;
+  --success-foreground: #fffaf0;
+  --danger: #e10600;
+  --danger-foreground: #fffaf0;
+  --destructive: #e10600;
+  --destructive-foreground: #fffaf0;
+  --border: #16120a;
+  --input: #fffaf0;
+  --ring: #1d4ed8;
+  --ink: #16120a;
+  --halftone: rgb(22 18 10 / 0.13);
+  --shadow-card: 5px 5px 0 #16120a;
+  --chart-muted: #3f382c;
+  --chart-tooltip-bg: #fffaf0;
+  --chart-tooltip-border: #16120a;
+  --chart-tooltip-fg: #16120a;
 }
 
 @layer base {
@@ -67,9 +114,12 @@
 
   html,
   body {
-    background: var(--background);
+    background-color: var(--background);
+    background-image: radial-gradient(var(--halftone) 1.15px, transparent 1.25px);
+    background-size: 13px 13px;
     color: var(--foreground);
     font-family: var(--font-sans);
+    font-weight: 600;
     min-height: 100%;
   }
 
@@ -78,12 +128,23 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    letter-spacing: -0.03em;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
+  h1 {
+    text-shadow: 2px 2px 0 var(--accent);
   }
 
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
+  }
+
+  .lucide {
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 }
 
@@ -93,12 +154,56 @@
   }
 
   .card-surface {
-    background: linear-gradient(180deg, hsl(20 10% 13%) 0%, hsl(20 10% 10%) 100%);
+    background-color: var(--card);
+    background-image: radial-gradient(var(--halftone) 0.95px, transparent 1.05px);
+    background-size: 9px 9px;
+    border: 3px solid var(--ink) !important;
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+
+  .card-surface.group:hover,
+  a:hover > .card-surface {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 var(--ink);
+  }
+
+  .comic-tab {
+    border: 3px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+    font-weight: 800;
+  }
+
+  .comic-tab:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--ink);
+  }
+
+  .comic-press {
+    border: 3px solid var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
+    font-weight: 800;
+  }
+
+  .comic-press:hover:not(:disabled) {
+    transform: translate(-1px, -1px);
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+
+  .comic-press:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--ink);
   }
 
   .glass-bar {
-    background: color-mix(in srgb, var(--background) 78%, transparent);
-    backdrop-filter: blur(16px);
+    background: color-mix(in srgb, var(--background) 92%, transparent);
+    border-bottom: 3px solid var(--ink);
+    backdrop-filter: blur(10px);
+  }
+
+  .h-2.overflow-hidden.rounded-full {
+    height: 0.7rem;
+    border: 2px solid var(--ink);
+    background: var(--secondary);
   }
 }
 
@@ -113,13 +218,14 @@
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track {
   background: var(--background);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--muted);
-  border-radius: 4px;
+  background: var(--accent);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
 }

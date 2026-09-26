@@ -1,0 +1,27 @@
+
+---
+
+*Add a new NFT Predictions section to the existing app, alongside the current prediction markets. Do not change any existing design, layout, colors, or UX — this is a new addition using the same visual style already established in the app.*
+
+*Structure it as two separate sections:*
+
+*Section 1 — Pump or Dump: Shows already live, already minted NFT collections. Pull real floor price and price history data to represent this as accurately as possible. Users predict whether the floor price will pump or dump within a set timeframe. Each card shows collection image, name, current live floor price, price chart, countdown timer, and Predict Pump / Predict Dump buttons with live odds.*
+
+*Section 2 — Sell Out or Not: Shows NFT collections that are currently minting or about to mint. Pull real mint progress data. Users predict whether the mint will fully sell out or not by its deadline. Each card shows collection image, name, mint progress (e.g. minted count out of total supply), countdown timer, and Predict Sell Out / Predict Won't Sell Out buttons with live odds.*
+
+*Both sections should have their own tab or filter so users can browse them separately, using the same card and detail page style already established in the rest of the app.*
+
+*User-Created Markets: Allow any user, not just admin, to create their own prediction market. When creating a market, the user must pick one of the two existing types — Pump or Dump on a specific collection, or Sell Out or Not on a specific mint — then fill in the collection details, deadline, and any relevant info. Once created it appears in the appropriate section for others to predict on.*
+
+*Tag each NFT prediction market with which Rialo primitive powers its resolution, to represent the technology accurately since it is not fully live yet — this should be shown as a realistic representation of the intended tech:*
+*- Native HTTPS — for pulling live floor price and mint data directly onchain without oracles*
+*- Conditional Transactions — for payouts that only execute once the real outcome is confirmed*
+*- Async Await — for predictions that wait across blocks until the deadline without needing bots to trigger settlement*
+*- REX — for any private or sealed prediction pools where individual bets are hidden until resolution*
+
+*Share Result feature: After a prediction resolves, or while it's still active, let users download a clean shareable image card showing the prediction, the outcome or current odds, and their result. Should look polished enough to post directly to X.*
+
+*Settings page upgrade: Allow users to change their username and profile picture. Make the settings page feel more interactive and polished rather than a plain list — use clean sections, smooth transitions, and a live preview of profile changes as they're made.*
+
+---
+

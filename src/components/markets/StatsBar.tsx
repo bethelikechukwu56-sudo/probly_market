@@ -1,6 +1,6 @@
 import { TrendingUp, Users, BarChart3, Zap } from "lucide-react";
 import { formatVolume } from "@/lib/utils";
-import { usePulse } from "@/store/pulse";
+import { useI18n } from "@/lib/i18n";
 
 function StatItem({
   icon: Icon,
@@ -12,9 +12,9 @@ function StatItem({
   value: string;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl bg-secondary/50 px-4 py-3">
-      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-        <Icon className="h-5 w-5 text-primary" />
+    <div className="card-surface flex items-center gap-3 rounded-xl px-4 py-3">
+      <div className="flex h-10 w-10 items-center justify-center rounded-lg border-2 border-ink bg-accent text-accent-foreground">
+        <Icon className="h-5 w-5" />
       </div>
       <div>
         <p className="text-xs text-muted-foreground">{label}</p>
@@ -24,21 +24,24 @@ function StatItem({
   );
 }
 
-export function StatsBar() {
-  const markets = usePulse((s) => s.markets);
-  const traders = usePulse((s) => s.traders);
-  const trades = usePulse((s) => s.trades);
-  const totalVolume = markets.reduce((sum, m) => sum + m.volume, 0);
-  const activeMarkets = markets.filter((m) => m.status === "active").length;
-  const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
-  const trades24h = trades.filter((t) => new Date(t.timestamp).getTime() > dayAgo).length + 128;
-
+export function StatsBar({
+  totalVolume,
+  activeMarkets,
+  traders,
+  trades24h,
+}: {
+  totalVolume: number;
+  activeMarkets: number;
+  traders: number;
+  trades24h: number;
+}) {
+  const { t } = useI18n();
   return (
     <div className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-4">
-      <StatItem icon={BarChart3} label="Total Volume" value={formatVolume(totalVolume)} />
-      <StatItem icon={TrendingUp} label="Active Markets" value={String(activeMarkets)} />
-      <StatItem icon={Users} label="Traders" value={String(traders.length)} />
-      <StatItem icon={Zap} label="Trades (24h)" value={String(trades24h)} />
+      <StatItem icon={BarChart3} label={t("stats.volume")} value={formatVolume(totalVolume)} />
+      <StatItem icon={TrendingUp} label={t("stats.active")} value={String(activeMarkets)} />
+      <StatItem icon={Users} label={t("stats.traders")} value={String(traders)} />
+      <StatItem icon={Zap} label={t("stats.trades24h")} value={String(trades24h)} />
     </div>
   );
 }

@@ -1,11 +1,21 @@
-import { Category, Market, PricePoint, Trader } from "@/types/market";
+import { Category, PricePoint } from "@/types/market";
 
-function outcome(marketId: string, yes: number, change: number) {
-  return [
-    { id: `${marketId}-yes`, name: "Yes" as const, price: yes, change24h: change },
-    { id: `${marketId}-no`, name: "No" as const, price: +(1 - yes).toFixed(2), change24h: -change },
-  ];
-}
+export type SeedMarket = {
+  id: string;
+  title: string;
+  description: string;
+  category: Exclude<Category, "all">;
+  imageUrl?: string;
+  endDate: string;
+  volume: number;
+  liquidity: number;
+  yesPrice: number;
+  noPrice: number;
+  yesChange: number;
+  status: "active";
+  createdAt: string;
+  resolutionSource?: string;
+};
 
 function hash(str: string) {
   let h = 2166136261;
@@ -25,7 +35,7 @@ function mulberry32(seed: number) {
   };
 }
 
-export const seedMarkets: Market[] = [
+export const seedMarkets: SeedMarket[] = [
   {
     id: "m-btc",
     title: "Will Bitcoin reach $150K by end of 2026?",
@@ -38,7 +48,7 @@ export const seedMarkets: Market[] = [
     liquidity: 890_000,
     yesPrice: 0.42,
     noPrice: 0.58,
-    outcomes: outcome("m-btc", 0.42, 3.2),
+    yesChange: 3.2,
     status: "active",
     createdAt: "2026-01-15",
     resolutionSource: "https://www.coingecko.com/en/coins/bitcoin",
@@ -54,7 +64,7 @@ export const seedMarkets: Market[] = [
     liquidity: 450_000,
     yesPrice: 0.67,
     noPrice: 0.33,
-    outcomes: outcome("m-rialo", 0.67, 5.8),
+    yesChange: 5.8,
     status: "active",
     createdAt: "2026-03-01",
     resolutionSource: "Official Rialo announcements",
@@ -70,7 +80,7 @@ export const seedMarkets: Market[] = [
     liquidity: 1_200_000,
     yesPrice: 0.55,
     noPrice: 0.45,
-    outcomes: outcome("m-turing", 0.55, 1.2),
+    yesChange: 1.2,
     status: "active",
     createdAt: "2026-02-20",
   },
@@ -85,7 +95,7 @@ export const seedMarkets: Market[] = [
     liquidity: 2_100_000,
     yesPrice: 0.73,
     noPrice: 0.27,
-    outcomes: outcome("m-fed", 0.73, 2.1),
+    yesChange: 2.1,
     status: "active",
     createdAt: "2026-06-01",
     resolutionSource: "Federal Reserve FOMC statement",
@@ -101,7 +111,7 @@ export const seedMarkets: Market[] = [
     liquidity: 650_000,
     yesPrice: 0.81,
     noPrice: 0.19,
-    outcomes: outcome("m-starship", 0.81, 0.5),
+    yesChange: 0.5,
     status: "active",
     createdAt: "2026-04-10",
   },
@@ -116,7 +126,7 @@ export const seedMarkets: Market[] = [
     liquidity: 1_500_000,
     yesPrice: 0.38,
     noPrice: 0.62,
-    outcomes: outcome("m-eth", 0.38, -1.8),
+    yesChange: -1.8,
     status: "active",
     createdAt: "2026-05-15",
   },
@@ -131,7 +141,7 @@ export const seedMarkets: Market[] = [
     liquidity: 340_000,
     yesPrice: 0.45,
     noPrice: 0.55,
-    outcomes: outcome("m-vision", 0.45, 4.2),
+    yesChange: 4.2,
     status: "active",
     createdAt: "2026-07-01",
   },
@@ -145,7 +155,7 @@ export const seedMarkets: Market[] = [
     liquidity: 250_000,
     yesPrice: 0.72,
     noPrice: 0.28,
-    outcomes: outcome("m-swift", 0.72, 0.9),
+    yesChange: 0.9,
     status: "active",
     createdAt: "2026-08-20",
   },
@@ -160,7 +170,7 @@ export const seedMarkets: Market[] = [
     liquidity: 2_800_000,
     yesPrice: 0.51,
     noPrice: 0.49,
-    outcomes: outcome("m-election", 0.51, -0.6),
+    yesChange: -0.6,
     status: "active",
     createdAt: "2026-01-08",
   },
@@ -175,7 +185,7 @@ export const seedMarkets: Market[] = [
     liquidity: 1_100_000,
     yesPrice: 0.34,
     noPrice: 0.66,
-    outcomes: outcome("m-ucl", 0.34, 2.4),
+    yesChange: 2.4,
     status: "active",
     createdAt: "2026-08-12",
   },
@@ -190,7 +200,7 @@ export const seedMarkets: Market[] = [
     liquidity: 180_000,
     yesPrice: 0.29,
     noPrice: 0.71,
-    outcomes: outcome("m-oscars", 0.29, -2.1),
+    yesChange: -2.1,
     status: "active",
     createdAt: "2026-09-01",
   },
@@ -205,13 +215,13 @@ export const seedMarkets: Market[] = [
     liquidity: 420_000,
     yesPrice: 0.22,
     noPrice: 0.78,
-    outcomes: outcome("m-fusion", 0.22, 1.1),
+    yesChange: 1.1,
     status: "active",
     createdAt: "2026-03-22",
   },
 ];
 
-export const seedTraders: Trader[] = [
+export const seedBots = [
   { id: "t-aria", username: "aria.markets", walletAddress: "0xa11ce0000000000000000000000000000000aria", totalVolume: 1_240_000, totalProfit: 186_400, totalTrades: 412, winRate: 61 },
   { id: "t-keel", username: "keel", walletAddress: "0xkee1000000000000000000000000000000000eel", totalVolume: 980_000, totalProfit: 142_200, totalTrades: 301, winRate: 58 },
   { id: "t-nova", username: "novalabs", walletAddress: "0xn0va00000000000000000000000000000000nova", totalVolume: 2_100_000, totalProfit: 98_750, totalTrades: 640, winRate: 54 },
@@ -233,24 +243,25 @@ export const categories: { id: Category; label: string }[] = [
   { id: "economics", label: "Economics" },
 ];
 
-export function seedPriceHistory(markets: Market[]): Record<string, PricePoint[]> {
-  const history: Record<string, PricePoint[]> = {};
+export function seedPriceHistory(markets: SeedMarket[]): { marketId: string; outcome: "yes" | "no"; price: number; ts: string }[] {
   const now = Date.parse("2026-09-20T00:00:00.000Z");
+  const rows: { marketId: string; outcome: "yes" | "no"; price: number; ts: string }[] = [];
   for (const market of markets) {
-    for (const outcome of market.outcomes) {
-      const rand = mulberry32(hash(outcome.id));
-      const points: PricePoint[] = [];
-      let price = Math.max(0.08, Math.min(0.92, outcome.price - 0.08));
+    for (const side of ["yes", "no"] as const) {
+      const target = side === "yes" ? market.yesPrice : market.noPrice;
+      const rand = mulberry32(hash(market.id + side));
+      let price = Math.max(0.08, Math.min(0.92, target - 0.08));
       for (let i = 30; i >= 0; i--) {
         price = Math.max(0.04, Math.min(0.96, price + (rand() - 0.48) * 0.04));
-        if (i === 0) price = outcome.price;
-        points.push({
-          timestamp: new Date(now - i * 24 * 60 * 60 * 1000).toISOString(),
+        if (i === 0) price = target;
+        rows.push({
+          marketId: market.id,
+          outcome: side,
           price: +price.toFixed(3),
+          ts: new Date(now - i * 24 * 60 * 60 * 1000).toISOString(),
         });
       }
-      history[outcome.id] = points;
     }
   }
-  return history;
+  return rows;
 }

@@ -71,7 +71,7 @@ export function SignInButtons() {
           key={p.providerId}
           type="button"
           onClick={() => signIn(p.providerId, { callbackURL: "/" })}
-          className="w-full cursor-pointer rounded-md border border-neutral-300 px-4 py-2 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-900"
+          className="min-h-11 w-full cursor-pointer rounded-xl border-[3px] border-ink bg-card px-4 py-2 font-extrabold shadow-[3px_3px_0_var(--ink)] hover:bg-accent hover:text-accent-foreground"
         >
           Continue with {p.label}
         </button>
@@ -105,10 +105,10 @@ export function UserButton() {
         <img
           src={user.profileImageUrl}
           alt=""
-          className="h-8 w-8 rounded-full object-cover"
+          className="h-9 w-9 rounded-full border-2 border-ink object-cover"
         />
       ) : (
-        <span className="grid h-8 w-8 place-items-center rounded-full bg-black/10 text-sm font-medium dark:bg-white/20">
+        <span className="grid h-9 w-9 place-items-center rounded-full border-2 border-ink bg-accent text-sm font-extrabold text-accent-foreground">
           {label.charAt(0).toUpperCase()}
         </span>
       )}

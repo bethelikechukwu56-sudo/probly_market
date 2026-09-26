@@ -1,0 +1,37 @@
+Good catch. So it needs a proper light and dark comic mode, not just one fixed look.
+
+Let me add that into the prompt.
+
+---
+
+*Redesign the entire UI to a comic book cartoon style, applied consistently across every single screen, and make sure it works properly in both light mode and dark mode since the app already has that toggle. Do not change any functionality, features, data, or app structure — this is a visual style change only.*
+
+*Light mode:*
+*- Warm off-white background, like comic book paper*
+*- Bold thick black outlines on cards, buttons, icons and containers*
+*- Bold saturated red or electric blue as the primary accent for buttons and highlights*
+*- Punchy yellow for callouts, badges, and hot tags*
+*- Green for pump and wins, red for dump and losses*
+*- Black text for readability*
+
+*Dark mode:*
+*- Deep dark background, keep it comic themed not just plain dark, maybe a very dark navy or near black with a subtle texture*
+*- Bold outlines in a bright white or light cream instead of black so they still pop against the dark background*
+*- Same accent colors, red or blue, yellow, green and red for pump and dump, but slightly brightened so they stay vivid against the dark base*
+*- Cream or off-white text for readability*
+
+*Style direction applies to both modes:*
+*- Comic style typography for headings, bold and playful*
+*- Halftone dot patterns or subtle comic textures in backgrounds and card fills where it fits*
+*- Chunky tactile buttons with bold borders and a slight pressed/pop effect on tap*
+*- Icons redrawn in cartoon illustrated style rather than plain minimal icons*
+*- Cards should feel like comic panels with bold borders and dynamic framing*
+*- Loading states and transitions can include comic style effects like motion lines or small burst animations*
+
+*Remove all visible mentions of Rialo's specific technical primitives from the UI completely — no tags like "Native HTTPS" or "Conditional Transactions" on cards, no primitive selection step when creating a market. The underlying tech stays exactly the same, it should just never be named or shown anywhere in the interface.*
+
+*Apply this comic art direction across the home screen, prediction market cards, NFT prediction section, wallet, profile, settings, leaderboard, and every other existing screen so the whole app feels cohesive in both light and dark mode.*
+
+---
+
+This should cover it properly now. Ready to paste it in?

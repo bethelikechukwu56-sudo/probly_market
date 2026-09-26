@@ -14,7 +14,17 @@ export interface Market {
   createdAt: string;
   creatorId?: string;
   resolutionSource?: string;
+  reactions: ReactionCounts;
+  volume24h: number;
 }
+
+export interface ReactionCounts {
+  fire: number;
+  eyes: number;
+  skull: number;
+}
+
+export type ReactionKind = "fire" | "eyes" | "skull";
 
 export interface Outcome {
   id: string;
@@ -70,12 +80,37 @@ export interface Trader {
   totalProfit: number;
   totalTrades: number;
   winRate: number;
+  rank: number;
 }
 
-export interface Session {
-  id: string;
+export interface WalletInfo {
+  address: string;
+  balance: number;
+  faucetReady: boolean;
+}
+
+export interface UserPulseStats {
   username: string;
-  email: string;
+  totalVolume: number;
+  totalProfit: number;
+  totalTrades: number;
+  wins: number;
+  winRate: number;
+  streakDays: number;
+  bestCategory: string | null;
+  rank: number | null;
+  badges: string[];
+}
+
+export interface Challenge {
+  id: string;
+  title: string;
+  description: string;
+  weekStart: string;
+  bonusRia: number;
+  targetTrades: number;
+  progress: number;
+  claimed: boolean;
 }
 
 export type Category =
@@ -87,3 +122,15 @@ export type Category =
   | "tech"
   | "science"
   | "economics";
+
+export const REACTION_META: { kind: ReactionKind; label: string; glyph: string }[] = [
+  { kind: "fire", label: "Fire", glyph: "🔥" },
+  { kind: "eyes", label: "Watching", glyph: "👀" },
+  { kind: "skull", label: "Rekt", glyph: "💀" },
+];
+
+export const BADGE_META: Record<string, { title: string; blurb: string }> = {
+  first_prediction: { title: "First Prediction", blurb: "You placed your first trade." },
+  ten_wins: { title: "10 Wins", blurb: "Ten positions in the green." },
+  top_ten: { title: "Top 10 Leaderboard", blurb: "You cracked the top ten." },
+};

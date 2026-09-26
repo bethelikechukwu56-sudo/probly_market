@@ -2,20 +2,22 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Layout } from "@/components/layout/Layout";
 import { Trophy, TrendingUp, BarChart3, Medal } from "lucide-react";
 import { cn, formatAddress, formatVolume } from "@/lib/utils";
-import { usePulse } from "@/store/pulse";
-import { useMemo } from "react";
+import { getLeaderboard } from "@/lib/pulse-api";
+import { useLeaderboard } from "@/lib/pulse-query";
+import { useCurrentUser } from "@/lib/auth/use-current-user";
+import { useI18n } from "@/lib/i18n";
 
-export const Route = createFileRoute("/leaderboard")({ component: LeaderboardPage });
+export const Route = createFileRoute("/leaderboard")({
+  loader: () => getLeaderboard(),
+  component: LeaderboardPage,
+});
 
 function LeaderboardPage() {
-  const traders = usePulse((s) => s.traders);
-  const ranked = useMemo(
-    () =>
-      [...traders]
-        .sort((a, b) => b.totalProfit - a.totalProfit)
-        .map((t, i) => ({ ...t, rank: i + 1 })),
-    [traders],
-  );
+  const initial = Route.useLoaderData();
+  const query = useLeaderboard();
+  const ranked = query.data ?? initial;
+  const user = useCurrentUser();
+  const { t } = useI18n();
 
   const getRankIcon = (rank: number) => {
     if (rank === 1) return <Trophy className="h-5 w-5 text-accent" />;
@@ -33,9 +35,9 @@ function LeaderboardPage() {
       <div className="mb-8">
         <div className="mb-2 flex items-center gap-3">
           <Trophy className="h-6 w-6 text-primary" />
-          <h1 className="font-display text-3xl font-bold md:text-4xl">Leaderboard</h1>
+          <h1 className="font-display text-3xl font-bold md:text-4xl">{t("leaderboard.title")}</h1>
         </div>
-        <p className="text-lg text-muted-foreground">Top traders on Predictix ranked by profit</p>
+        <p className="text-lg text-muted-foreground">{t("leaderboard.subtitle")}</p>
       </div>
 
       {ranked.length >= 3 ? (
@@ -46,7 +48,7 @@ function LeaderboardPage() {
             </div>
             <p className="truncate font-semibold">{ranked[1].username}</p>
             <p className="text-lg font-bold text-success">+{formatVolume(ranked[1].totalProfit)}</p>
-            <p className="text-xs text-muted-foreground">{ranked[1].totalTrades} trades</p>
+            <p className="text-xs text-muted-foreground">{t("leaderboard.tradesCount", { n: ranked[1].totalTrades })}</p>
           </div>
           <div className="card-surface order-0 -mt-2 rounded-2xl border border-primary/30 p-4 text-center md:order-1 md:-mt-4 md:p-6">
             <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-primary/15 md:h-20 md:w-20">
@@ -54,7 +56,7 @@ function LeaderboardPage() {
             </div>
             <p className="truncate text-lg font-semibold">{ranked[0].username}</p>
             <p className="text-2xl font-bold text-success">+{formatVolume(ranked[0].totalProfit)}</p>
-            <p className="text-sm text-muted-foreground">{ranked[0].totalTrades} trades</p>
+            <p className="text-sm text-muted-foreground">{t("leaderboard.tradesCount", { n: ranked[0].totalTrades })}</p>
           </div>
           <div className="card-surface order-2 rounded-2xl border border-border/50 p-4 text-center md:p-6">
             <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 md:h-16 md:w-16">
@@ -62,26 +64,29 @@ function LeaderboardPage() {
             </div>
             <p className="truncate font-semibold">{ranked[2].username}</p>
             <p className="text-lg font-bold text-success">+{formatVolume(ranked[2].totalProfit)}</p>
-            <p className="text-xs text-muted-foreground">{ranked[2].totalTrades} trades</p>
+            <p className="text-xs text-muted-foreground">{t("leaderboard.tradesCount", { n: ranked[2].totalTrades })}</p>
           </div>
         </div>
       ) : null}
 
       <div className="card-surface overflow-hidden rounded-2xl border border-border/50">
         <div className="hidden grid-cols-12 gap-4 border-b border-border/50 p-4 text-sm font-medium text-muted-foreground md:grid">
-          <div className="col-span-1">Rank</div>
-          <div className="col-span-4">Trader</div>
-          <div className="col-span-2 text-right">Volume</div>
-          <div className="col-span-2 text-right">Profit</div>
-          <div className="col-span-2 text-right">Trades</div>
-          <div className="col-span-1 text-right">Win</div>
+          <div className="col-span-1">{t("leaderboard.rank")}</div>
+          <div className="col-span-4">{t("leaderboard.trader")}</div>
+          <div className="col-span-2 text-right">{t("leaderboard.volume")}</div>
+          <div className="col-span-2 text-right">{t("leaderboard.profit")}</div>
+          <div className="col-span-2 text-right">{t("leaderboard.trades")}</div>
+          <div className="col-span-1 text-right">{t("leaderboard.win")}</div>
         </div>
         {ranked.length > 0 ? (
           <div className="divide-y divide-border/30">
             {ranked.map((trader) => (
               <div
                 key={trader.id}
-                className="grid grid-cols-6 items-center gap-2 p-4 md:grid-cols-12 md:gap-4"
+                className={cn(
+                  "grid grid-cols-6 items-center gap-2 p-4 md:grid-cols-12 md:gap-4",
+                  user?.id === trader.id ? "bg-primary/5" : "",
+                )}
               >
                 <div className="col-span-1">{getRankIcon(trader.rank)}</div>
                 <div className="col-span-3 flex min-w-0 items-center gap-3 md:col-span-4">
@@ -131,7 +136,7 @@ function LeaderboardPage() {
         ) : (
           <div className="p-12 text-center text-muted-foreground">
             <TrendingUp className="mx-auto mb-4 h-12 w-12 opacity-50" />
-            <p>No traders yet. Be the first to trade.</p>
+            <p>{t("leaderboard.empty")}</p>
           </div>
         )}
       </div>

@@ -13,8 +13,14 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as LeaderboardRouteImport } from './routes/leaderboard'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as NftsRouteImport } from './routes/nfts'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as MarketIdRouteImport } from './routes/market.$id'
+import { Route as NftIdRouteImport } from './routes/nft.$id'
+import { Route as NftNewRouteImport } from './routes/nft.new'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -36,14 +42,44 @@ const LeaderboardRoute = LeaderboardRouteImport.update({
   path: '/leaderboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NftsRoute = NftsRouteImport.update({
+  id: '/nfts',
+  path: '/nfts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MarketIdRoute = MarketIdRouteImport.update({
   id: '/market/$id',
   path: '/market/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NftIdRoute = NftIdRouteImport.update({
+  id: '/nft/$id',
+  path: '/nft/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NftNewRoute = NftNewRouteImport.update({
+  id: '/nft/new',
+  path: '/nft/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -52,16 +88,28 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/create': typeof CreateRoute
   '/leaderboard': typeof LeaderboardRoute
+  '/login': typeof LoginRoute
+  '/nfts': typeof NftsRoute
   '/portfolio': typeof PortfolioRoute
+  '/settings': typeof SettingsRoute
   '/market/$id': typeof MarketIdRoute
+  '/nft/$id': typeof NftIdRoute
+  '/nft/new': typeof NftNewRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/create': typeof CreateRoute
   '/leaderboard': typeof LeaderboardRoute
+  '/login': typeof LoginRoute
+  '/nfts': typeof NftsRoute
   '/portfolio': typeof PortfolioRoute
+  '/settings': typeof SettingsRoute
   '/market/$id': typeof MarketIdRoute
+  '/nft/$id': typeof NftIdRoute
+  '/nft/new': typeof NftNewRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -69,23 +117,58 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/create': typeof CreateRoute
   '/leaderboard': typeof LeaderboardRoute
+  '/login': typeof LoginRoute
+  '/nfts': typeof NftsRoute
   '/portfolio': typeof PortfolioRoute
+  '/settings': typeof SettingsRoute
   '/market/$id': typeof MarketIdRoute
+  '/nft/$id': typeof NftIdRoute
+  '/nft/new': typeof NftNewRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/create' | '/leaderboard' | '/portfolio' | '/market/$id'
+    | '/'
+    | '/auth'
+    | '/create'
+    | '/leaderboard'
+    | '/login'
+    | '/nfts'
+    | '/portfolio'
+    | '/settings'
+    | '/market/$id'
+    | '/nft/$id'
+    | '/nft/new'
+    | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/create' | '/leaderboard' | '/portfolio' | '/market/$id'
+  to:
+    | '/'
+    | '/auth'
+    | '/create'
+    | '/leaderboard'
+    | '/login'
+    | '/nfts'
+    | '/portfolio'
+    | '/settings'
+    | '/market/$id'
+    | '/nft/$id'
+    | '/nft/new'
+    | '/api/auth/$'
   id:
     | '__root__'
     | '/'
     | '/auth'
     | '/create'
     | '/leaderboard'
+    | '/login'
+    | '/nfts'
     | '/portfolio'
+    | '/settings'
     | '/market/$id'
+    | '/nft/$id'
+    | '/nft/new'
+    | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,8 +176,14 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   CreateRoute: typeof CreateRoute
   LeaderboardRoute: typeof LeaderboardRoute
+  LoginRoute: typeof LoginRoute
+  NftsRoute: typeof NftsRoute
   PortfolioRoute: typeof PortfolioRoute
+  SettingsRoute: typeof SettingsRoute
   MarketIdRoute: typeof MarketIdRoute
+  NftIdRoute: typeof NftIdRoute
+  NftNewRoute: typeof NftNewRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -127,6 +216,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LeaderboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nfts': {
+      id: '/nfts'
+      path: '/nfts'
+      fullPath: '/nfts'
+      preLoaderRoute: typeof NftsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/portfolio': {
       id: '/portfolio'
       path: '/portfolio'
@@ -134,11 +237,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/market/$id': {
       id: '/market/$id'
       path: '/market/$id'
       fullPath: '/market/$id'
       preLoaderRoute: typeof MarketIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nft/$id': {
+      id: '/nft/$id'
+      path: '/nft/$id'
+      fullPath: '/nft/$id'
+      preLoaderRoute: typeof NftIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nft/new': {
+      id: '/nft/new'
+      path: '/nft/new'
+      fullPath: '/nft/new'
+      preLoaderRoute: typeof NftNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -149,8 +280,14 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   CreateRoute: CreateRoute,
   LeaderboardRoute: LeaderboardRoute,
+  LoginRoute: LoginRoute,
+  NftsRoute: NftsRoute,
   PortfolioRoute: PortfolioRoute,
+  SettingsRoute: SettingsRoute,
   MarketIdRoute: MarketIdRoute,
+  NftIdRoute: NftIdRoute,
+  NftNewRoute: NftNewRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

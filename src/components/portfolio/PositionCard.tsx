@@ -2,9 +2,11 @@ import { Link } from "@tanstack/react-router";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Position } from "@/types/market";
+import { useI18n } from "@/lib/i18n";
 
 export function PositionCard({ position }: { position: Position }) {
   const isProfit = position.pnl >= 0;
+  const { t } = useI18n();
 
   return (
     <Link to="/market/$id" params={{ id: position.marketId }} className="block">
@@ -18,7 +20,7 @@ export function PositionCard({ position }: { position: Position }) {
                 position.outcome === "yes" ? "bg-success/20 text-success" : "bg-danger/20 text-danger",
               )}
             >
-              {position.outcome.toUpperCase()}
+              {position.outcome === "yes" ? t("yes") : t("no")}
             </span>
           </div>
           <div
@@ -34,19 +36,19 @@ export function PositionCard({ position }: { position: Position }) {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <p className="mb-1 text-xs text-muted-foreground">Shares</p>
+            <p className="mb-1 text-xs text-muted-foreground">{t("position.shares")}</p>
             <p className="font-semibold tabular-nums">{position.shares.toFixed(2)}</p>
           </div>
           <div>
-            <p className="mb-1 text-xs text-muted-foreground">Avg Price</p>
+            <p className="mb-1 text-xs text-muted-foreground">{t("position.avg")}</p>
             <p className="font-semibold tabular-nums">{(position.avgPrice * 100).toFixed(1)}¢</p>
           </div>
           <div>
-            <p className="mb-1 text-xs text-muted-foreground">Current Price</p>
+            <p className="mb-1 text-xs text-muted-foreground">{t("position.current")}</p>
             <p className="font-semibold tabular-nums">{(position.currentPrice * 100).toFixed(1)}¢</p>
           </div>
           <div>
-            <p className="mb-1 text-xs text-muted-foreground">P&L</p>
+            <p className="mb-1 text-xs text-muted-foreground">{t("position.pnl")}</p>
             <p className={cn("font-semibold tabular-nums", isProfit ? "text-success" : "text-danger")}>
               {isProfit ? "+" : ""}${position.pnl.toFixed(2)}
             </p>
