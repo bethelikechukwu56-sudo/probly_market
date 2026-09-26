@@ -1,9 +1,10 @@
 import { useEffect, useState, type ComponentType, type ReactNode } from "react";
 
 /**
- * Mounts RainbowKit on the client only. The server render stays a passthrough
- * so wagmi never runs during SSR (the live preview iframe still hydrates the
- * connect button immediately after).
+ * Wallet sign-in. Mounts RainbowKit on the client only. The server render stays
+ * a passthrough so wagmi never runs during SSR (the live preview iframe still
+ * hydrates the connect button immediately after). Google and email sign-in are
+ * not used.
  */
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [WalletProvider, setWalletProvider] = useState<ComponentType<{ children: ReactNode }> | null>(null);
