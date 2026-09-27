@@ -1,4 +1,4 @@
-import { o as __toESM } from "../../_runtime.mjs";
+import { s as __toESM } from "../../_runtime.mjs";
 import { l as require_react_dom, u as require_react } from "../@floating-ui/react-dom+[...].mjs";
 import { a as useComposedRefs, i as createSlot, n as createContextScope, o as require_jsx_runtime, t as createCollection } from "./react-collection+[...].mjs";
 import { n as useCallbackRef$1, r as Primitive, t as DismissableLayer } from "./react-dismissable-layer+[...].mjs";
@@ -1799,4 +1799,4 @@ function wrapArray(array, startIndex) {
 }
 __name(wrapArray, "wrapArray");
 //#endregion
-export { SelectItemIndicator as a, SelectPortal as c, SelectSeparator as d, SelectTrigger as f, SelectItem as i, SelectScrollDownButton as l, SelectViewport as m, SelectContent as n, SelectItemText as o, SelectValue as p, SelectIcon as r, SelectLabel as s, Select as t, SelectScrollUpButton as u };
+export { SelectItemIndicator as a, SelectPortal as c, SelectSeparator as d, SelectTrigger as f, ReactRemoveScroll as h, SelectItem as i, SelectScrollDownButton as l, SelectViewport as m, SelectContent as n, SelectItemText as o, SelectValue as p, SelectIcon as r, SelectLabel as s, Select as t, SelectScrollUpButton as u };

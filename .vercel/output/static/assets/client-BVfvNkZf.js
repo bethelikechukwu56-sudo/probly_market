@@ -1,0 +1,1 @@
+import{r as e}from"./rolldown-runtime-BcKkbAw3.js";import{i as t,n,r}from"./wallet-session-C1HAmHol.js";var i=e({authEnabled:()=>!0,getBearerToken:()=>t,signOut:()=>a});async function a(e=`/`){n();try{await r()}catch{}typeof window<`u`&&(window.location.href=e)}export{a as n,i as t};

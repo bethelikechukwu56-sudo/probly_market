@@ -1,1 +1,0 @@
-import{s as e}from"./useRouter-CjgR41m7.js";import{t}from"./useNavigate-CIzbQ9dM.js";var n=e(),r=function(){return(0,n.jsx)(t,{to:`/login`})};export{r as component};
