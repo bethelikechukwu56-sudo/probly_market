@@ -1,10 +1,10 @@
 import { o as require_jsx_runtime } from "../_libs/@radix-ui/react-collection+[...].mjs";
 import { i as formatAddress, o as formatVolume, r as cn } from "./button-C3nr00Jv.mjs";
 import { S as Medal, W as ChartColumn, c as TrendingUp, o as Trophy } from "../_libs/lucide-react.mjs";
-import { a as Route$8, c as useI18n } from "./router-BO0wqGQQ.mjs";
-import { a as useCurrentUser } from "./probly-wordmark-D3WF-xkE.mjs";
-import { i as useLeaderboard, t as Layout } from "./Layout-Be5XvqIz.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/leaderboard-BwDr5HQE.js
+import { a as Route$8, c as useI18n } from "./router-BST_wReC.mjs";
+import { a as useCurrentUser } from "./probly-wordmark-C-y93pX3.mjs";
+import { i as useLeaderboard, t as Layout } from "./Layout-BoSazKKI.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/leaderboard-CFH01NQe.js
 var import_jsx_runtime = require_jsx_runtime();
 function LeaderboardPage() {
 	const initial = Route$8.useLoaderData();

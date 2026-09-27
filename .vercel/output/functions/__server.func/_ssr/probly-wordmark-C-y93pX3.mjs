@@ -4,8 +4,8 @@ import { o as require_jsx_runtime } from "../_libs/@radix-ui/react-collection+[.
 import { a as readWalletSession, s as subscribeWalletSession } from "./wallet-session-BxdB0qxU.mjs";
 import { r as cn, s as useConnectWalletSlot, t as Button } from "./button-C3nr00Jv.mjs";
 import { d as Sun, k as Globe, y as Moon } from "../_libs/lucide-react.mjs";
-import { c as useI18n, l as useTheme, s as LOCALES } from "./router-BO0wqGQQ.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/probly-wordmark-D3WF-xkE.js
+import { c as useI18n, l as useTheme, s as LOCALES } from "./router-BST_wReC.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/probly-wordmark-C-y93pX3.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function sessionToUser(session) {

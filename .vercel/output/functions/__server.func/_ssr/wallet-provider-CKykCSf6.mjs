@@ -4,13 +4,13 @@ import { o as require_jsx_runtime } from "../_libs/@radix-ui/react-collection+[.
 import { a as readWalletSession, n as clearWalletSession, o as registerWalletDisconnect, s as subscribeWalletSession, t as applyWalletSession } from "./wallet-session-BxdB0qxU.mjs";
 import { D as darkTheme, E as lightTheme, S as WagmiProvider, _ as createAuthenticationAdapter, a as ledgerWallet, b as useDisconnect, c as rainbowWallet, d as safeWallet, f as walletConnectWallet, g as connectorsForWallets, h as RainbowKitProvider, i as metaMaskWallet, l as phantomWallet, m as RainbowKitAuthenticationProvider, n as coinbaseWallet, o as okxWallet, p as ConnectButton, r as injectedWallet, s as rabbyWallet, t as braveWallet, u as trustWallet, v as init_mainnet, x as useAccount, y as mainnet } from "../_libs/@rainbow-me/rainbowkit+[...].mjs";
 import { n as ConnectWalletSlotContext, t as Button } from "./button-C3nr00Jv.mjs";
-import { l as useTheme } from "./router-BO0wqGQQ.mjs";
-import { r as verifyWalletSignature, t as issueWalletNonce } from "./wallet-api-CoALySQt.mjs";
+import { l as useTheme } from "./router-BST_wReC.mjs";
+import { r as verifyWalletSignature, t as issueWalletNonce } from "./wallet-api-CwZWyCer.mjs";
 import { Et as getAddress, f as http, l as init__esm, p as init_http } from "../_libs/@coinbase/wallet-sdk+[...].mjs";
 import { t as buildSignInMessage } from "./wallet-message-DmlzR0SL.mjs";
 import { t as createConfig } from "../_libs/@wagmi/core+[...].mjs";
 import { An as init_arbitrum, Cn as init_polygon, Dn as base, En as optimism, On as init_base, Tn as init_optimism, kn as arbitrum, wn as polygon } from "../_libs/@reown/appkit+[...].mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/wallet-provider-BpBU0o3a.js
+//#region node_modules/.nitro/vite/services/ssr/assets/wallet-provider-CKykCSf6.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 init__esm();

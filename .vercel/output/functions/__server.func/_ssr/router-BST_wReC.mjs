@@ -5,7 +5,7 @@ import { o as require_jsx_runtime } from "../_libs/@radix-ui/react-collection+[.
 import { t as __exportAll } from "./rolldown-runtime-D7D4PA-g.mjs";
 import { W as QueryClientProvider } from "../_libs/@rainbow-me/rainbowkit+[...].mjs";
 import { i as getServerFnById, n as createServerFn, r as TSS_SERVER_FUNCTION } from "./ssr.mjs";
-import { t as authMiddleware } from "./middleware-D1LSJuIm.mjs";
+import { t as authMiddleware } from "./middleware-BlkH4MvN.mjs";
 import { a as string, i as object, n as literal, o as union, r as number, t as _enum } from "../_libs/zod.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { s as TriangleAlert } from "../_libs/lucide-react.mjs";
@@ -25,7 +25,7 @@ var createSsrRpc = (functionId) => {
 	});
 };
 //#endregion
-//#region node_modules/.nitro/vite/services/ssr/assets/pulse-api-DAdaVTnE.js
+//#region node_modules/.nitro/vite/services/ssr/assets/pulse-api-BsyRKqtC.js
 var listHome = createServerFn({ method: "GET" }).handler(createSsrRpc("fcd1fc17bed8fd96ddd24672bb4d9c3492b73d45b407b86a1c7c05eb07c0c6e8"));
 var getMarketDetail = createServerFn({ method: "GET" }).validator(object({ id: string() })).handler(createSsrRpc("0b0aec97d5a653dbeb133a085c3c506d276e26d33e278437c827afc63420f079"));
 var getLeaderboard = createServerFn({ method: "GET" }).handler(createSsrRpc("74500bbd0bf98f52d3a8b42ba9d5991d23b4107ab97a0d866a36dc717b525a5f"));
@@ -68,7 +68,7 @@ var createMarket = createServerFn({ method: "POST" }).middleware([authMiddleware
 })).handler(createSsrRpc("2fe7fec4225a5fc22b039ccf2e27fd0fdc77ca29f374b9ee2bd87a8ebde569fa"));
 var claimChallenge = createServerFn({ method: "POST" }).middleware([authMiddleware]).handler(createSsrRpc("61f4dd90ccfd16958ccd6b71cab5b6fabe5e71e35607e095a1ff103024d13ab0"));
 //#endregion
-//#region node_modules/.nitro/vite/services/ssr/assets/nft-api-BfapPj2s.js
+//#region node_modules/.nitro/vite/services/ssr/assets/nft-api-JKM0TDW1.js
 var listNfts = createServerFn({ method: "GET" }).handler(createSsrRpc("7b258fa66f950d4998143502569bbe905ca28182731ab3645da5cc9f374d1fe8"));
 var getNft = createServerFn({ method: "GET" }).validator(object({ id: string() })).handler(createSsrRpc("17aab32f558cc2b7b7b52044f1793e0a88b7f607db0c9932f7669b417d17deab"));
 var getMyNftStake = createServerFn({ method: "GET" }).middleware([authMiddleware]).validator(object({ id: string() })).handler(createSsrRpc("07955909146ecd0ba47a8534ee1a66fa96b86511b9d9db20ab7a3c64aecd11e0"));
@@ -103,7 +103,7 @@ var saveProfile = createServerFn({ method: "POST" }).middleware([authMiddleware]
 	image: string().max(12e4).nullable()
 })).handler(createSsrRpc("76e31106f4315a62bb90738fed5fbfccf5de968d5ca55d5736f389a4fe1747c7"));
 //#endregion
-//#region node_modules/.nitro/vite/services/ssr/assets/router-BO0wqGQQ.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-BST_wReC.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var STORAGE_KEY$1 = "predictix-theme";
@@ -189,7 +189,7 @@ function AuthProvider({ children }) {
 	const [WalletProvider, setWalletProvider] = (0, import_react.useState)(null);
 	(0, import_react.useEffect)(() => {
 		let cancelled = false;
-		import("./wallet-provider-BpBU0o3a.mjs").then((mod) => {
+		import("./wallet-provider-CKykCSf6.mjs").then((mod) => {
 			if (!cancelled) setWalletProvider(() => mod.WalletProvider);
 		});
 		return () => {
@@ -2246,42 +2246,42 @@ function RootDocument() {
 		})]
 	});
 }
-var $$splitComponentImporter$10 = () => import("./routes-Bww5O7Yb.mjs");
+var $$splitComponentImporter$10 = () => import("./routes-DIrfHdGZ.mjs");
 var Route$11 = createFileRoute("/")({
 	loader: () => listHome(),
 	component: lazyRouteComponent($$splitComponentImporter$10, "component")
 });
 var $$splitComponentImporter$9 = () => import("./auth-C98mBExH.mjs");
 var Route$10 = createFileRoute("/auth")({ component: lazyRouteComponent($$splitComponentImporter$9, "component") });
-var $$splitComponentImporter$8 = () => import("./create-B9CYdief.mjs");
+var $$splitComponentImporter$8 = () => import("./create-N9AG4PRe.mjs");
 var Route$9 = createFileRoute("/create")({ component: lazyRouteComponent($$splitComponentImporter$8, "component") });
-var $$splitComponentImporter$7 = () => import("./leaderboard-BwDr5HQE.mjs");
+var $$splitComponentImporter$7 = () => import("./leaderboard-CFH01NQe.mjs");
 var Route$8 = createFileRoute("/leaderboard")({
 	loader: () => getLeaderboard(),
 	component: lazyRouteComponent($$splitComponentImporter$7, "component")
 });
-var $$splitComponentImporter$6 = () => import("./login-DNotC5fK.mjs");
+var $$splitComponentImporter$6 = () => import("./login-Cn6kYCss.mjs");
 var Route$7 = createFileRoute("/login")({ component: lazyRouteComponent($$splitComponentImporter$6, "component") });
-var $$splitComponentImporter$5 = () => import("./nfts-Cc9Z_hru.mjs");
+var $$splitComponentImporter$5 = () => import("./nfts-CVY1iUWy.mjs");
 var Route$6 = createFileRoute("/nfts")({
 	loader: () => listNfts(),
 	component: lazyRouteComponent($$splitComponentImporter$5, "component")
 });
-var $$splitComponentImporter$4 = () => import("./portfolio-DQ-0F18H.mjs");
+var $$splitComponentImporter$4 = () => import("./portfolio-mXACuQw5.mjs");
 var Route$5 = createFileRoute("/portfolio")({ component: lazyRouteComponent($$splitComponentImporter$4, "component") });
-var $$splitComponentImporter$3 = () => import("./settings-3f6jrPIo.mjs");
+var $$splitComponentImporter$3 = () => import("./settings-By7xsMLj.mjs");
 var Route$4 = createFileRoute("/settings")({ component: lazyRouteComponent($$splitComponentImporter$3, "component") });
-var $$splitComponentImporter$2 = () => import("./market._id-DWrWuv-j.mjs");
+var $$splitComponentImporter$2 = () => import("./market._id-B_V1B7DA.mjs");
 var Route$3 = createFileRoute("/market/$id")({
 	loader: ({ params }) => getMarketDetail({ data: { id: params.id } }),
 	component: lazyRouteComponent($$splitComponentImporter$2, "component")
 });
-var $$splitComponentImporter$1 = () => import("./nft._id-BWOtGINz.mjs");
+var $$splitComponentImporter$1 = () => import("./nft._id-BedtFkdB.mjs");
 var Route$2 = createFileRoute("/nft/$id")({
 	loader: ({ params }) => getNft({ data: { id: params.id } }),
 	component: lazyRouteComponent($$splitComponentImporter$1, "component")
 });
-var $$splitComponentImporter = () => import("./nft.new-CpzwH-fh.mjs");
+var $$splitComponentImporter = () => import("./nft.new-D8YRTNPm.mjs");
 var Route$1 = createFileRoute("/nft/new")({ component: lazyRouteComponent($$splitComponentImporter, "component") });
 /** Google and email sign-in were removed. Accounts are the connected wallet. */
 function gone() {

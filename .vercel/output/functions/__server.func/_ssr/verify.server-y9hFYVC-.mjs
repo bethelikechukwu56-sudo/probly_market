@@ -1,6 +1,6 @@
 import { a as getRequest } from "./ssr.mjs";
-import { readWalletToken } from "./wallet-session.server-BrTzJ7p9.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/verify.server-WQsiHHCH.js
+import { readWalletToken } from "./wallet-session.server-CQBuU6ez.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/verify.server-y9hFYVC-.js
 function env(key) {
 	return process.env[key]?.trim() || void 0;
 }

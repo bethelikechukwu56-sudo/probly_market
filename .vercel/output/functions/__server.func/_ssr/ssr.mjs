@@ -116,83 +116,83 @@ async function getStartManifest(matchedRoutes) {
 var manifest = {
 	"07955909146ecd0ba47a8534ee1a66fa96b86511b9d9db20ab7a3c64aecd11e0": {
 		functionName: "getMyNftStake_createServerFn_handler",
-		importer: () => import("./nft-api-CEMBnULZ.mjs")
+		importer: () => import("./nft-api-C871srbn.mjs")
 	},
 	"0b0aec97d5a653dbeb133a085c3c506d276e26d33e278437c827afc63420f079": {
 		functionName: "getMarketDetail_createServerFn_handler",
-		importer: () => import("./pulse-api-BnwXMf9E.mjs")
+		importer: () => import("./pulse-api-CtBY6NKc.mjs")
 	},
 	"17aab32f558cc2b7b7b52044f1793e0a88b7f607db0c9932f7669b417d17deab": {
 		functionName: "getNft_createServerFn_handler",
-		importer: () => import("./nft-api-CEMBnULZ.mjs")
+		importer: () => import("./nft-api-C871srbn.mjs")
 	},
 	"2fe7fec4225a5fc22b039ccf2e27fd0fdc77ca29f374b9ee2bd87a8ebde569fa": {
 		functionName: "createMarket_createServerFn_handler",
-		importer: () => import("./pulse-api-BnwXMf9E.mjs")
+		importer: () => import("./pulse-api-CtBY6NKc.mjs")
 	},
 	"32830cef63d9cabf9a3cd4682acfc9c79d0eb524cd8718faf3f9d2eb0a505336": {
 		functionName: "getMyPulse_createServerFn_handler",
-		importer: () => import("./pulse-api-BnwXMf9E.mjs")
+		importer: () => import("./pulse-api-CtBY6NKc.mjs")
 	},
 	"3a4f0f94dfafd2bfbd022f9496d5bc5edc7f1dc323ae1ccca9637d5e8449c04e": {
 		functionName: "createNftMarket_createServerFn_handler",
-		importer: () => import("./nft-api-CEMBnULZ.mjs")
+		importer: () => import("./nft-api-C871srbn.mjs")
 	},
 	"3a8dbfd3f7cf638d198735769db93ebfdb85bc540fcdedba1e997513bd913b42": {
 		functionName: "buyNft_createServerFn_handler",
-		importer: () => import("./nft-api-CEMBnULZ.mjs")
+		importer: () => import("./nft-api-C871srbn.mjs")
 	},
 	"3f0d434c950e198639dfd246e83a456625da2a14c6b7e7e3bb7f66d10afa5343": {
 		functionName: "toggleReaction_createServerFn_handler",
-		importer: () => import("./pulse-api-BnwXMf9E.mjs")
+		importer: () => import("./pulse-api-CtBY6NKc.mjs")
 	},
 	"61f4dd90ccfd16958ccd6b71cab5b6fabe5e71e35607e095a1ff103024d13ab0": {
 		functionName: "claimChallenge_createServerFn_handler",
-		importer: () => import("./pulse-api-BnwXMf9E.mjs")
+		importer: () => import("./pulse-api-CtBY6NKc.mjs")
 	},
 	"74500bbd0bf98f52d3a8b42ba9d5991d23b4107ab97a0d866a36dc717b525a5f": {
 		functionName: "getLeaderboard_createServerFn_handler",
-		importer: () => import("./pulse-api-BnwXMf9E.mjs")
+		importer: () => import("./pulse-api-CtBY6NKc.mjs")
 	},
 	"76e31106f4315a62bb90738fed5fbfccf5de968d5ca55d5736f389a4fe1747c7": {
 		functionName: "saveProfile_createServerFn_handler",
-		importer: () => import("./nft-api-CEMBnULZ.mjs")
+		importer: () => import("./nft-api-C871srbn.mjs")
 	},
 	"7b258fa66f950d4998143502569bbe905ca28182731ab3645da5cc9f374d1fe8": {
 		functionName: "listNfts_createServerFn_handler",
-		importer: () => import("./nft-api-CEMBnULZ.mjs")
+		importer: () => import("./nft-api-C871srbn.mjs")
 	},
 	"7f44c78183da91deb03e5d1ceac985061f2d6ab526b906bac61cfebabf3caf69": {
 		functionName: "issueWalletNonce_createServerFn_handler",
-		importer: () => import("./wallet-api-CJHdeyO2.mjs")
+		importer: () => import("./wallet-api-Dy2_O7di.mjs")
 	},
 	"84e0f1bfba36450f1207986a708e6c11e3699ce97aad7ba54262fdb6c5d63086": {
 		functionName: "buyShares_createServerFn_handler",
-		importer: () => import("./pulse-api-BnwXMf9E.mjs")
+		importer: () => import("./pulse-api-CtBY6NKc.mjs")
 	},
 	"a814f9dce4c4055b8f3f30cbc7f178102a2096894c69d218092c67fe16b69c24": {
 		functionName: "deleteComment_createServerFn_handler",
-		importer: () => import("./pulse-api-BnwXMf9E.mjs")
+		importer: () => import("./pulse-api-CtBY6NKc.mjs")
 	},
 	"b963e80f6511844bd72981e92d8d46d13502eb78aa1f669b8ee4fe84caa60b3d": {
 		functionName: "addComment_createServerFn_handler",
-		importer: () => import("./pulse-api-BnwXMf9E.mjs")
+		importer: () => import("./pulse-api-CtBY6NKc.mjs")
 	},
 	"cba86e693930674a119dd6ab3f35b6f251a2499f68ebbe0f42fcca9f0a4f0370": {
 		functionName: "refreshWalletProfile_createServerFn_handler",
-		importer: () => import("./wallet-api-CJHdeyO2.mjs")
+		importer: () => import("./wallet-api-Dy2_O7di.mjs")
 	},
 	"d24db0423e0bdecda6e4504f310fb015c8262949a897064a936016b7aa1dee5a": {
 		functionName: "claimFaucet_createServerFn_handler",
-		importer: () => import("./pulse-api-BnwXMf9E.mjs")
+		importer: () => import("./pulse-api-CtBY6NKc.mjs")
 	},
 	"eafc8284f64a52aed0d160ba3445400d66af0093a1458fc04cdb240efecc0870": {
 		functionName: "verifyWalletSignature_createServerFn_handler",
-		importer: () => import("./wallet-api-CJHdeyO2.mjs")
+		importer: () => import("./wallet-api-Dy2_O7di.mjs")
 	},
 	"fcd1fc17bed8fd96ddd24672bb4d9c3492b73d45b407b86a1c7c05eb07c0c6e8": {
 		functionName: "listHome_createServerFn_handler",
-		importer: () => import("./pulse-api-BnwXMf9E.mjs")
+		importer: () => import("./pulse-api-CtBY6NKc.mjs")
 	}
 };
 async function getServerFnById(id, access) {
@@ -1462,7 +1462,7 @@ var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
 	const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-		import("./router-BO0wqGQQ.mjs").then((n) => n.t),
+		import("./router-BST_wReC.mjs").then((n) => n.t),
 		import("./start-5Z2QO8AU.mjs"),
 		import("./empty-plugin-adapters-D9UWiqvJ.mjs")
 	]);

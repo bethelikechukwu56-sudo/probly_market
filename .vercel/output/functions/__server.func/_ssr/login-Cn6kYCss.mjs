@@ -1,8 +1,8 @@
 import { v as Link, y as Navigate } from "../_libs/@tanstack/react-router+[...].mjs";
 import { o as require_jsx_runtime } from "../_libs/@radix-ui/react-collection+[...].mjs";
-import { c as useI18n } from "./router-BO0wqGQQ.mjs";
-import { i as probly_wordmark_default, n as LanguageSelect, o as useCurrentUserState, r as ThemeToggle, t as ConnectWalletButton } from "./probly-wordmark-D3WF-xkE.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/login-DNotC5fK.js
+import { c as useI18n } from "./router-BST_wReC.mjs";
+import { i as probly_wordmark_default, n as LanguageSelect, o as useCurrentUserState, r as ThemeToggle, t as ConnectWalletButton } from "./probly-wordmark-C-y93pX3.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/login-Cn6kYCss.js
 var import_jsx_runtime = require_jsx_runtime();
 function Login() {
 	const { user, isPending } = useCurrentUserState();

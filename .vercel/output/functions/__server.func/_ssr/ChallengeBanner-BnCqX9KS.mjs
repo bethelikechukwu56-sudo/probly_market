@@ -4,9 +4,9 @@ import { o as require_jsx_runtime } from "../_libs/@radix-ui/react-collection+[.
 import { t as Button } from "./button-C3nr00Jv.mjs";
 import { A as Gift, N as Flame } from "../_libs/lucide-react.mjs";
 import { n as toast } from "../_libs/sonner.mjs";
-import { c as useI18n, v as claimChallenge } from "./router-BO0wqGQQ.mjs";
-import { o as useMyPulse, r as useInvalidatePulse } from "./Layout-Be5XvqIz.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/ChallengeBanner-BlKU6_ar.js
+import { c as useI18n, v as claimChallenge } from "./router-BST_wReC.mjs";
+import { o as useMyPulse, r as useInvalidatePulse } from "./Layout-BoSazKKI.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/ChallengeBanner-BnCqX9KS.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function ChallengeBanner() {

@@ -85,6 +85,49 @@ function toSql(run: Run): Sql {
   return sql;
 }
 
+function neonPoolConfig(url: string) {
+  const local = /localhost|127\.0\.0\.1|\[::1\]/.test(url);
+  return {
+    connectionString: url,
+    max: 3,
+    connectionTimeoutMillis: 8_000,
+    // Hosted Postgres (Neon) presents a cert Node does not trust by default.
+    // Without this, the first query throws and every SSR page returns 500.
+    ssl: local ? undefined : { rejectUnauthorized: false as const },
+  };
+}
+
+async function applyNeonMigrations(pool: import("pg").Pool): Promise<void> {
+  const client = await pool.connect();
+  try {
+    await client.query(
+      "create table if not exists _migrations (name text primary key, applied_at timestamptz not null default now())",
+    );
+    const migrations = import.meta.glob("/migrations/*.sql", {
+      query: "?raw",
+      import: "default",
+      eager: true,
+    }) as Record<string, string>;
+    const doneRows = (await client.query("select name from _migrations")).rows as { name: string }[];
+    for (const { name, path } of pendingMigrations(
+      Object.keys(migrations),
+      doneRows.map((row) => row.name),
+    )) {
+      try {
+        await client.query("begin");
+        await client.query(migrations[path]);
+        await client.query("insert into _migrations (name) values ($1)", [name]);
+        await client.query("commit");
+      } catch (err) {
+        await client.query("rollback").catch(() => undefined);
+        throw err;
+      }
+    }
+  } finally {
+    client.release();
+  }
+}
+
 function createNeonSql(): Promise<Sql> {
   globalRef.__pgSqlPromise__ ??= (async () => {
     // Regular Postgres driver: node-postgres (`pg`) — works directly with Neon's
@@ -93,7 +136,8 @@ function createNeonSql(): Promise<Sql> {
     types.setTypeParser(OID_INT8, Number);
     types.setTypeParser(OID_DATE, identity);
     types.setTypeParser(OID_INTERVAL, identity);
-    const pool = new Pool({ connectionString: databaseUrl });
+    const pool = new Pool(neonPoolConfig(databaseUrl!));
+    await applyNeonMigrations(pool);
     return toSql(async <T>(text: string, params: unknown[]) => {
       const res = await pool.query(text, params);
       return res.rows as T[];
@@ -178,7 +222,15 @@ async function createSql(): Promise<Sql> {
         "or a server route loader, never from client code.",
     );
   }
-  return dbSource === "neon" ? createNeonSql() : createPgliteSql();
+  if (dbSource === "neon") {
+    try {
+      return await createNeonSql();
+    } catch (err) {
+      console.error("[db] Neon unavailable, using PGLite instead:", err);
+      return createPgliteSql();
+    }
+  }
+  return createPgliteSql();
 }
 
 /**
@@ -235,6 +287,5 @@ if (typeof window === "undefined" && dbSource === "pglite") {
   globalBoot.__pgBootstrapPromise__ ??= ensureDbReady().catch((err) => {
     globalBoot.__pgBootstrapPromise__ = undefined;
     console.error("[db] PGLite bootstrap failed:", err);
-    throw err;
   });
 }

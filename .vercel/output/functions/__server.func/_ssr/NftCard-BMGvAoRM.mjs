@@ -4,9 +4,9 @@ import { v as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { o as require_jsx_runtime } from "../_libs/@radix-ui/react-collection+[...].mjs";
 import { o as formatVolume, t as Button } from "./button-C3nr00Jv.mjs";
 import { z as Clock } from "../_libs/lucide-react.mjs";
-import { c as useI18n } from "./router-BO0wqGQQ.mjs";
+import { c as useI18n } from "./router-BST_wReC.mjs";
 import { t as Badge } from "./badge-C8UARlUg.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/NftCard-DDA9um9t.js
+//#region node_modules/.nitro/vite/services/ssr/assets/NftCard-BMGvAoRM.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function parts(ms) {
