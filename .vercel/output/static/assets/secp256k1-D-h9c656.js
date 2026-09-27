@@ -1,0 +1,1 @@
+import{o as e}from"./wallet-provider-eshfiTjb.js";export{e as secp256k1};

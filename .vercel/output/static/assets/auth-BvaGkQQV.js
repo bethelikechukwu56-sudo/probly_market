@@ -1,1 +1,0 @@
-import{t as e}from"./jsx-runtime-DK4zUNGh.js";import{w as t}from"./index-C0iGZiK0.js";var n=e(),r=function(){return(0,n.jsx)(t,{to:`/login`})};export{r as component};

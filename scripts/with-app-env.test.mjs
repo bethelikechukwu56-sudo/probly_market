@@ -59,8 +59,10 @@ test("an explicit process-env override wins over the file", () => {
   assert.equal(merged.PATH, "/usr/bin");
 });
 
-test("the template ships auth off", () => {
-  assert.deepEqual(readAppEnv(projectRoot()), { VITE_AUTH_ENABLED: "false" });
+test("the workspace app env includes the WalletConnect project id", () => {
+  assert.deepEqual(readAppEnv(projectRoot()), {
+    VITE_WALLETCONNECT_PROJECT_ID: "abe617907f5cdd9b9e53d65123873643",
+  });
 });
 
 test("vite loadEnv resolves the wrapped value", () => {

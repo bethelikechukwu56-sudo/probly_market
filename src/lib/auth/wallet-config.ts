@@ -21,7 +21,7 @@ import { arbitrum, base, mainnet, optimism, polygon } from "wagmi/chains";
  * VITE_WALLETCONNECT_PROJECT_ID when the platform provides one. Injected
  * wallets (MetaMask, Coinbase, Rabby, Phantom, Brave) do not need it.
  */
-const FALLBACK_PROJECT_ID = "3fcc6bba6f1de962d911bb5b5c3dba68";
+const FALLBACK_PROJECT_ID = "abe617907f5cdd9b9e53d65123873643";
 
 const projectId =
   (import.meta.env.VITE_WALLETCONNECT_PROJECT_ID as string | undefined)?.trim() || FALLBACK_PROJECT_ID;

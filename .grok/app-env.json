@@ -1,5 +1,6 @@
 {
   "deploy": {
     "database": true
-  }
+  },
+  "VITE_WALLETCONNECT_PROJECT_ID": "abe617907f5cdd9b9e53d65123873643"
 }

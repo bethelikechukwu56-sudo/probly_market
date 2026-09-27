@@ -1,7 +1,7 @@
 import { n as createServerFn } from "./ssr.mjs";
 import { t as authMiddleware } from "./middleware-BlkH4MvN.mjs";
 import { a as string, i as object } from "../_libs/zod.mjs";
-import { D as createSsrRpc } from "./router-BST_wReC.mjs";
+import { D as createSsrRpc } from "./router-DrBwQxAl.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/wallet-api-CwZWyCer.js
 var issueWalletNonce = createServerFn({ method: "POST" }).handler(createSsrRpc("7f44c78183da91deb03e5d1ceac985061f2d6ab526b906bac61cfebabf3caf69"));
 var verifyWalletSignature = createServerFn({ method: "POST" }).validator(object({
